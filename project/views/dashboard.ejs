@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+</head>
+<body>
+
+<h1>Dashboard</h1>
+
+<!-- Create Topic -->
+<h2>Create Topic</h2>
+<form action="/topics/create" method="POST">
+  <input name="name" placeholder="Topic name" required />
+  <input type="hidden" name="userId" value="<%= userId %>" />
+  <button type="submit">Create Topic</button>
+</form>
+
+<hr>
+
+<!-- Subscribed Topics -->
+<h2>Your Topics</h2>
+
+<% if (data.length === 0) { %>
+  <p>No subscriptions yet.</p>
+<% } %>
+
+<% data.forEach(topic => { %>
+  <div style="border:1px solid black; padding:10px; margin:10px 0;">
+
+    <!-- Topic Title -->
+    <h3><%= topic.topicName %></h3>
+
+    <!-- Unsubscribe -->
+    <form action="/topics/unsubscribe" method="POST" style="display:inline;">
+      <input type="hidden" name="topicId" value="<%= topic.topicId %>" />
+      <input type="hidden" name="userId" value="<%= userId %>" />
+      <button type="submit">Unsubscribe</button>
+    </form>
+
+    <!-- Access Topic (counts stats) -->
+    <a href="/topics/access/<%= topic.topicId %>">View Topic</a>
+
+    <!-- Post Message -->
+    <form action="/topics/message" method="POST">
+      <input name="content" placeholder="Write a message..." required />
+      <input type="hidden" name="topicId" value="<%= topic.topicId %>" />
+      <input type="hidden" name="userId" value="<%= userId %>" />
+      <button type="submit">Post</button>
+    </form>
+
+    <!-- Messages -->
+    <h4>Recent Messages</h4>
+
+    <% if (topic.messages.length === 0) { %>
+      <p>No messages yet.</p>
+    <% } %>
+
+    <% topic.messages.forEach(msg => { %>
+      <div style="margin-left:10px;">
+        <p><strong>Message:</strong> <%= msg.content %></p>
+        <small><%= new Date(msg.createdAt).toLocaleString() %></small>
+      </div>
+    <% }) %>
+
+  </div>
+<% }) %>
+
+<hr>
+
+<!-- Stats Link -->
+<a href="/topics/stats">View Topic Stats (JSON)</a>
+
+</body>
+</html>
