@@ -1,0 +1,80 @@
+<%- include('../partials/header', { title: topic.title }) %>
+
+<div class="container">
+  <div style="margin-bottom: 1.5rem;">
+    <a href="/topics" class="card-meta" style="color: var(--muted); text-decoration: none;">← All Topics</a>
+  </div>
+
+  <div class="page-header">
+    <div class="flex items-center gap-1" style="gap: 0.8rem; flex-wrap: wrap;">
+      <h1><%= topic.title %></h1>
+      <% if (isSubscribed) { %><span class="badge">Subscribed</span><% } %>
+    </div>
+    <% if (topic.description) { %>
+      <p class="subtitle"><%= topic.description %></p>
+    <% } %>
+    <p class="card-meta" style="margin-top: 0.4rem;">
+      Created by @<%= topic.createdBy.username %> ·
+      <%= topic.subscribers.length %> subscriber<%= topic.subscribers.length !== 1 ? 's' : '' %> ·
+      Accessed <%= topic.accessCount %> time<%= topic.accessCount !== 1 ? 's' : '' %>
+    </p>
+  </div>
+
+  <!-- Subscribe / Unsubscribe -->
+  <div style="margin-bottom: 2rem;">
+    <% if (isSubscribed) { %>
+      <form action="/topics/<%= topic._id %>/unsubscribe" method="POST" style="display:inline">
+        <button type="submit" class="btn btn-danger">Unsubscribe</button>
+      </form>
+    <% } else { %>
+      <form action="/topics/<%= topic._id %>/subscribe" method="POST" style="display:inline">
+        <button type="submit" class="btn btn-subscribe">Subscribe to Topic</button>
+      </form>
+    <% } %>
+  </div>
+
+  <!-- Messages -->
+  <% if (messages.length === 0) { %>
+    <div class="empty">
+      <div class="empty-icon">💬</div>
+      <p>No messages yet. Start the conversation!</p>
+    </div>
+  <% } else { %>
+    <div class="card">
+      <% messages.forEach(msg => { %>
+        <div class="message-item">
+          <div class="flex items-center" style="justify-content: space-between;">
+            <div class="message-author">@<%= msg.author.username %></div>
+            <% if (msg.author._id.toString() === sessionUserId) { %>
+              <form action="/topics/messages/<%= msg._id %>/delete" method="POST" style="display:inline">
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this message?')">Delete</button>
+              </form>
+            <% } %>
+          </div>
+          <div class="message-content"><%= msg.content %></div>
+          <div class="message-time"><%= new Date(msg.createdAt).toLocaleString() %></div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <!-- Post Message (subscribed users only) -->
+  <% if (isSubscribed) { %>
+    <div class="post-form">
+      <h3>Post a Message</h3>
+      <div>
+        <div class="form-group">
+          <textarea id="content" name="content" form="msg-form" placeholder="Share your thoughts..." required></textarea>
+        </div>
+        <button type="submit" form="msg-form" class="btn btn-primary">Post Message</button>
+      </div>
+      <form id="msg-form" action="/topics/<%= topic._id %>/messages" method="POST" style="display:none"></form>
+    </div>
+  <% } else { %>
+    <div class="post-form" style="text-align: center;">
+      <p class="card-meta">Subscribe to this topic to post messages.</p>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

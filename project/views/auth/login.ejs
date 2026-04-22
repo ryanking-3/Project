@@ -1,0 +1,27 @@
+<%- include('../partials/header', { title: 'Login' }) %>
+
+<div class="auth-box">
+  <h1>Welcome back</h1>
+  <p class="auth-sub">Sign in to Thread/</p>
+
+  <% if (error) { %>
+    <div class="alert alert-error"><%= error %></div>
+  <% } %>
+
+  <div>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" form="login-form" required placeholder="your_username">
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" form="login-form" required placeholder="••••••••">
+    </div>
+    <button type="submit" form="login-form" class="btn btn-primary" style="width:100%">Sign In</button>
+  </div>
+  <form id="login-form" action="/login" method="POST" style="display:none"></form>
+
+  <p class="auth-switch">No account? <a href="/register">Register here</a></p>
+</div>
+
+<%- include('../partials/footer') %>

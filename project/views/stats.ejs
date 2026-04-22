@@ -1,0 +1,43 @@
+<%- include('partials/header', { title: 'Topic Statistics' }) %>
+
+<div class="container">
+  <div class="page-header">
+    <h1>Topic Statistics</h1>
+    <p class="subtitle">Number of times each topic has been accessed</p>
+  </div>
+
+  <% const maxAccess = topics.length > 0 ? Math.max(...topics.map(t => t.accessCount), 1) : 1; %>
+
+  <% if (topics.length === 0) { %>
+    <div class="empty">
+      <div class="empty-icon">📊</div>
+      <p>No topics to show stats for yet.</p>
+    </div>
+  <% } else { %>
+    <% topics.forEach((topic, i) => { %>
+      <div class="card" style="margin-bottom: 0.8rem;">
+        <div class="flex items-center" style="justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+          <div style="flex: 1;">
+            <div style="display: flex; align-items: center; gap: 0.8rem;">
+              <span style="font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); width: 1.5rem;">#<%= i + 1 %></span>
+              <a href="/topics/<%= topic._id %>" class="card-title" style="font-size: 1rem;"><%= topic.title %></a>
+            </div>
+            <div class="stat-bar" style="margin-left: 2.3rem;">
+              <div class="stat-bar-fill" style="width: <%= (topic.accessCount / maxAccess * 100).toFixed(1) %>%"></div>
+            </div>
+          </div>
+          <div style="text-align: right; min-width: 80px;">
+            <div class="stat-number" style="font-size: 1.4rem;"><%= topic.accessCount %></div>
+            <div class="card-meta">view<%= topic.accessCount !== 1 ? 's' : '' %></div>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  <% } %>
+
+  <div style="margin-top: 2rem;">
+    <a href="/dashboard" class="btn btn-outline">← Back to Dashboard</a>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
