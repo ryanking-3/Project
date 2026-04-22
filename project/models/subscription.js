@@ -5,4 +5,4 @@ const subSchema = new mongoose.Schema({
   topicId: mongoose.Schema.Types.ObjectId
 });
 
-module.exports = mongoose.model("Subscription", subSchema);
+module.exports = mongoose.model("subscription", subSchema);
