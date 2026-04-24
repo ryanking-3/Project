@@ -3,26 +3,29 @@
 <div class="max-w-4xl mx-auto px-6 py-20">
   <div class="text-center mb-16">
     <h1 class="font-serif text-6xl mb-4 italic text-brandAccent">Analytics/</h1>
-    <p class="text-gray-500 font-mono text-[10px] uppercase tracking-[0.5em]">Engagement Metrics</p>
+    <p class="text-gray-500 font-mono text-[10px] uppercase tracking-[0.5em]">T8: Engagement Metrics</p>
   </div>
 
   <div class="space-y-6">
     <% topics.forEach((topic, i) => { %>
-      <div class="bg-brandSurface p-8 rounded-2xl border border-brandBorder group">
+      <div class="bg-brandSurface p-8 rounded-2xl border border-brandBorder group hover:border-brandAccent/30 transition-all duration-500">
         <div class="flex justify-between items-end mb-6">
           <div class="flex items-center gap-4">
             <span class="font-mono text-gray-700 text-lg">0<%= i + 1 %></span>
-            <span class="font-serif text-2xl italic"><%= topic.title %></span>
+            <a href="/topics/<%= topic._id %>" class="font-serif text-2xl hover:text-brandAccent transition italic"><%= topic.title %></a>
           </div>
-          <span class="text-xs font-mono text-brandAccent font-bold"><%= topic.accessCount %> HITS</span>
+          <div class="text-right">
+            <span class="block text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-1">Total Hits</span>
+            <span class="text-xl font-mono text-brandAccent font-bold"><%= topic.accessCount %></span>
+          </div>
         </div>
         
         <div class="h-1.5 bg-black/40 w-full rounded-full overflow-hidden border border-white/5">
           <% 
-            let max = (locals.maxAccess && locals.maxAccess > 0) ? locals.maxAccess : 1;
-            let percent = (topic.accessCount / max) * 100;
+            let maxHit = (locals.maxAccess && locals.maxAccess > 0) ? locals.maxAccess : 1;
+            let percent = (topic.accessCount / maxHit) * 100;
           %>
-          <div class="progress-fill" style="--pg-width: <%= percent %>%;"></div>
+          <div class="stat-bar-fill h-full bg-brandAccent" style="--pg-width: <%= percent %>%; width: var(--pg-width);"></div>
         </div>
       </div>
     <% }) %>
