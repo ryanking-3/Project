@@ -1,43 +1,26 @@
 <%- include('partials/header', { title: 'Statistics' }) %>
 
-<div class="container">
-  <div class="page-header">
-    <h1>Topic Statistics</h1>
-    <p class="subtitle">Number of times each topic has been accessed</p>
-  </div>
+<%- include('partials/header', { title: 'Statistics' }) %>
 
-  <% const maxAccess = topics.length > 0 ? Math.max(...topics.map(t => t.accessCount), 1) : 1; %>
+<div class="max-w-3xl mx-auto px-6 py-20 text-center">
+  <h1 class="font-serif text-5xl mb-4 italic text-brandAccent">Metrics</h1>
+  <p class="text-gray-500 font-mono text-xs tracking-[0.3em] uppercase mb-16 underline underline-offset-8">Access Frequency per Topic</p>
 
-  <% if (topics.length === 0) { %>
-    <div class="empty">
-      <div class="empty-icon">📊</div>
-      <p>No topics to show stats for yet.</p>
-    </div>
-  <% } else { %>
+  <div class="space-y-4 text-left">
     <% topics.forEach((topic, i) => { %>
-      <div class="card" style="margin-bottom:0.8rem;">
-        <div class="flex items-center" style="justify-content:space-between; flex-wrap:wrap; gap:0.5rem;">
-          <div style="flex:1;">
-            <div style="display:flex; align-items:center; gap:0.8rem;">
-              <span style="font-family:'DM Mono',monospace; font-size:0.7rem; color:var(--muted); width:1.5rem;">#<%= i+1 %></span>
-              <a href="/topics/<%= topic._id %>" class="card-title" style="font-size:1rem;"><%= topic.title %></a>
-            </div>
-            <div class="stat-bar" style="margin-left:2.3rem;">
-              <div class="stat-bar-fill" style="width:<%= (topic.accessCount / maxAccess * 100).toFixed(1) %>%"></div>
-            </div>
+      <div class="bg-brandSurface p-6 rounded-xl border border-brandBorder flex items-center gap-8 group">
+        <span class="font-mono text-gray-700 text-xl group-hover:text-brandAccent transition">0<%= i+1 %></span>
+        <div class="flex-1">
+          <div class="flex justify-between items-end mb-3">
+            <span class="font-bold text-lg"><%= topic.title %></span>
+            <span class="text-xs font-mono text-brandAccent"><%= topic.accessCount %> HITS</span>
           </div>
-          <div style="text-align:right; min-width:80px;">
-            <div class="stat-number" style="font-size:1.4rem;"><%= topic.accessCount %></div>
-            <div class="card-meta">view<%= topic.accessCount !== 1 ? 's' : '' %></div>
+          <div class="h-1 bg-white/5 w-full rounded-full overflow-hidden">
+            <div class="h-full bg-brandAccent shadow-[0_0_8px_#e8ff4d] transition-all duration-1000" 
+                 style="width: <%= (topic.accessCount / maxAccess * 100) %>%"></div>
           </div>
         </div>
       </div>
     <% }) %>
-  <% } %>
-
-  <div style="margin-top:2rem;">
-    <a href="/dashboard" class="btn btn-outline">← Back to Dashboard</a>
   </div>
 </div>
-
-<%- include('partials/footer') %>

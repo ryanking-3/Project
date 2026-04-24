@@ -4,23 +4,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= typeof title !== 'undefined' ? title + ' · Thread' : 'Thread' %></title>
-  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;700&family=DM+Mono&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandBg: '#0e0e0e',
+            brandSurface: '#161616',
+            brandAccent: '#e8ff4d',
+            brandOrange: '#ff6b35',
+            brandBorder: '#2a2a2a',
+          },
+          fontFamily: {
+            serif: ['"DM Serif Display"', 'serif'],
+            sans: ['"DM Sans"', 'sans-serif'],
+            mono: ['"DM Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body>
+<body class="bg-brandBg text-gray-100 font-sans min-h-screen">
 
-<nav>
-  <a href="/" class="nav-brand">Thread/</a>
-  <div class="nav-links">
+<nav class="border-b border-brandBorder py-4 px-6 flex justify-between items-center bg-brandBg sticky top-0 z-50">
+  <a href="/" class="font-serif text-2xl tracking-tighter text-brandAccent">Thread/</a>
+  <div class="flex gap-6 items-center text-sm font-medium">
     <% if (sessionUser) { %>
-      <a href="/dashboard">Dashboard</a>
-      <a href="/topics">Topics</a>
-      <a href="/topics/new">+ New</a>
-      <a href="/stats">Stats</a>
-      <span class="nav-user">@<%= sessionUser %></span>
-      <a href="/logout">Logout</a>
+      <a href="/dashboard" class="hover:text-brandAccent transition">Dashboard</a>
+      <a href="/topics" class="hover:text-brandAccent transition">Topics</a>
+      <a href="/stats" class="hover:text-brandAccent transition">Stats</a>
+      <span class="text-gray-500 font-mono italic text-xs uppercase tracking-widest">@<%= sessionUser %></span>
+      <a href="/logout" class="bg-white/5 border border-white/10 px-3 py-1 rounded hover:bg-red-500/20 hover:text-red-400 transition">Logout</a>
     <% } else { %>
-      <a href="/login">Login</a>
-      <a href="/register">Register</a>
+      <a href="/login" class="hover:text-brandAccent transition">Login</a>
+      <a href="/register" class="bg-brandAccent text-black px-4 py-1.5 rounded-full font-bold hover:opacity-90 transition">Register</a>
     <% } %>
   </div>
 </nav>

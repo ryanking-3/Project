@@ -1,59 +1,44 @@
 <%- include('partials/header', { title: 'Dashboard' }) %>
 
-<div class="container">
-  <div class="page-header">
-    <h1>Good day, <span class="text-accent">@<%= user.username %></span></h1>
-    <p class="subtitle">Your subscribed topics — showing 2 most recent messages each</p>
-  </div>
-
-  <div class="flex gap-1 items-center mt-2" style="margin-bottom: 2rem; flex-wrap: wrap; gap: 0.6rem;">
-    <a href="/topics" class="btn btn-outline">Browse All Topics</a>
-    <a href="/topics/new" class="btn btn-primary">+ Start New Topic</a>
-  </div>
-
-  <% if (topicsWithMessages.length === 0) { %>
-    <div class="empty">
-      <div class="empty-icon">📭</div>
-      <p>You haven't subscribed to any topics yet.</p>
-      <a href="/topics" class="btn btn-outline mt-2" style="margin-top: 1rem; display: inline-block;">Browse Topics</a>
+<main class="max-w-6xl mx-auto px-6 py-12">
+  <header class="mb-12 border-l-4 border-brandAccent pl-6">
+    <h1 class="font-serif text-5xl mb-2 italic">Welcome, <span class="text-brandAccent">@<%= user.username %></span></h1>
+    <p class="text-gray-400 font-mono text-sm tracking-widest uppercase">Subscribed Activity</p>
+    
+    <div class="mt-8 flex gap-4">
+      <a href="/topics" class="border border-brandBorder px-6 py-2 rounded-full hover:bg-white hover:text-black transition">Explore All</a>
+      <a href="/topics/new" class="bg-brandAccent text-black px-6 py-2 rounded-full font-bold hover:scale-105 transition shadow-[0_0_15px_rgba(232,255,77,0.3)]">+ New Topic</a>
     </div>
-  <% } else { %>
+  </header>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
     <% topicsWithMessages.forEach(({ topic, messages }) => { %>
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <a href="/topics/<%= topic._id %>" class="card-title"><%= topic.title %></a>
-            <% if (topic.description) { %>
-              <p class="card-meta" style="margin-top: 0.2rem; text-transform: none; letter-spacing: 0;"><%= topic.description %></p>
-            <% } %>
-          </div>
-          <div class="flex gap-1 items-center">
-            <form action="/topics/<%= topic._id %>/unsubscribe" method="POST" style="display:inline">
-              <button type="submit" class="btn btn-danger btn-sm">Unsubscribe</button>
+      <div class="bg-brandSurface border border-brandBorder p-8 rounded-2xl flex flex-col justify-between hover:border-brandAccent/40 transition group">
+        <div>
+          <div class="flex justify-between items-start mb-6">
+            <a href="/topics/<%= topic._id %>" class="font-serif text-3xl group-hover:text-brandAccent transition"><%= topic.title %></a>
+            <form action="/topics/<%= topic._id %>/unsubscribe" method="POST">
+              <button type="submit" class="text-[10px] text-gray-500 hover:text-red-400 uppercase tracking-widest font-black border border-white/10 px-2 py-1 rounded">Unsubscribe</button>
             </form>
           </div>
-        </div>
 
-        <% if (messages.length === 0) { %>
-          <p class="card-meta" style="margin-top: 0.5rem;">No messages yet. <a href="/topics/<%= topic._id %>" style="color: var(--accent);">Be the first!</a></p>
-        <% } else { %>
-          <% messages.forEach(msg => { %>
-            <div class="message-item">
-              <div class="message-author">@<%= msg.author.username %></div>
-              <div class="message-content"><%= msg.content %></div>
-              <div class="message-time"><%= new Date(msg.createdAt).toLocaleString() %></div>
-            </div>
-          <% }) %>
-        <% } %>
-
-        <div style="margin-top: 0.8rem;">
-          <a href="/topics/<%= topic._id %>" class="card-meta" style="color: var(--accent); text-decoration: none; font-size: 0.75rem;">
-            → View full topic
-          </a>
+          <div class="space-y-6 mb-8">
+            <% messages.forEach(msg => { %>
+              <div class="relative pl-6">
+                <div class="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-brandAccent to-transparent opacity-30"></div>
+                <div class="text-[10px] font-mono text-brandAccent/60 uppercase tracking-widest mb-1">@<%= msg.author.username %></div>
+                <p class="text-gray-300 leading-relaxed text-sm"><%= msg.content %></p>
+              </div>
+            <% }) %>
+          </div>
         </div>
+        
+        <a href="/topics/<%= topic._id %>" class="text-xs font-bold text-brandAccent hover:translate-x-2 transition-transform inline-flex items-center gap-2">
+          VIEW FULL THREAD <span>→</span>
+        </a>
       </div>
     <% }) %>
-  <% } %>
-</div>
+  </div>
+</main>
 
 <%- include('partials/footer') %>

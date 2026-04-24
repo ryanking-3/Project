@@ -1,81 +1,49 @@
 <%- include('../partials/header', { title: topic.title }) %>
 
-<div class="container">
-  <div style="margin-bottom: 1.5rem;">
-    <a href="/topics" class="card-meta" style="color: var(--muted); text-decoration: none;">← All Topics</a>
-  </div>
-
-  <div class="page-header">
-    <div class="flex items-center gap-1" style="gap: 0.8rem; flex-wrap: wrap;">
-      <h1><%= topic.title %></h1>
-      <% if (isSubscribed) { %><span class="badge">Subscribed</span><% } %>
+<main class="max-w-4xl mx-auto px-6 py-12">
+  <header class="mb-12">
+    <div class="flex items-center gap-4 mb-4">
+      <h1 class="font-serif text-5xl italic"><%= topic.title %></h1>
+      <% if (isSubscribed) { %>
+        <span class="bg-brandAccent/10 text-brandAccent border border-brandAccent/30 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">Subscribed</span>
+      <% } %>
     </div>
-    <% if (topic.description) { %>
-      <p class="subtitle"><%= topic.description %></p>
-    <% } %>
-    <p class="card-meta" style="margin-top: 0.4rem;">
-      Created by @<%= topic.createdBy.username %> ·
-      <%= topic.subscribers.length %> subscriber<%= topic.subscribers.length !== 1 ? 's' : '' %> ·
-      Accessed <%= topic.accessCount %> time<%= topic.accessCount !== 1 ? 's' : '' %>
-    </p>
-  </div>
-
-  <!-- Subscribe / Unsubscribe -->
-  <div style="margin-bottom: 2rem;">
-    <% if (isSubscribed) { %>
-      <form action="/topics/<%= topic._id %>/unsubscribe" method="POST" style="display:inline">
-        <button type="submit" class="btn btn-danger">Unsubscribe</button>
-      </form>
-    <% } else { %>
-      <form action="/topics/<%= topic._id %>/subscribe" method="POST" style="display:inline">
-        <button type="submit" class="btn btn-subscribe">Subscribe to Topic</button>
-      </form>
-    <% } %>
-  </div>
-
-  <!-- Messages -->
-  <% if (messages.length === 0) { %>
-    <div class="empty">
-      <div class="empty-icon">💬</div>
-      <p>No messages yet. Start the conversation!</p>
-    </div>
-  <% } else { %>
-    <div class="card">
-      <% messages.forEach(msg => { %>
-        <div class="message-item">
-          <div class="flex items-center" style="justify-content: space-between;">
-            <div class="message-author">@<%= msg.author.username %></div>
-            <% if (msg.author._id.toString() === sessionUserId) { %>
-              <form action="/topics/messages/<%= msg._id %>/delete" method="POST" style="display:inline">
-                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this message?')">Delete</button>
-              </form>
-            <% } %>
-          </div>
-          <div class="message-content"><%= msg.content %></div>
-          <div class="message-time"><%= new Date(msg.createdAt).toLocaleString() %></div>
-        </div>
-      <% }) %>
-    </div>
-  <% } %>
-
-  <!-- Post Message (subscribed users only) -->
-  <% if (isSubscribed) { %>
-    <div class="post-form">
-      <h3>Post a Message</h3>
-      <div>
-        <div class="form-group">
-          <textarea id="content" name="content" form="msg-form" placeholder="Share your thoughts..." required></textarea>
-        </div>
-        <button type="submit" form="msg-form" class="btn btn-primary">Post Message</button>
+    
+    <div class="flex items-center justify-between border-y border-brandBorder py-4 font-mono text-[11px] text-gray-500 uppercase tracking-widest">
+      <div class="flex gap-6">
+        <span>By @<%= topic.createdBy.username %></span>
+        <span><%= topic.accessCount %> Total Views</span>
       </div>
-      <form id="msg-form" action="/topics/<%= topic._id %>/messages" method="POST" style="display:none"></form>
+      <% if (!isSubscribed) { %>
+        <form action="/topics/<%= topic._id %>/subscribe" method="POST">
+          <button class="text-brandAccent hover:underline">Join Conversation</button>
+        </form>
+      <% } %>
     </div>
-  <% } else { %>
-    <div class="post-form" style="text-align: center;">
-      <p class="card-meta">Subscribe to this topic to post messages.</p>
+  </header>
+
+  <div class="space-y-8 mb-16">
+    <% topic.messages.forEach(msg => { %>
+      <div class="group">
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-xs font-mono text-brandAccent uppercase">@<%= msg.author.username %></span>
+          <span class="text-[10px] text-gray-600 font-mono"><%= new Date(msg.createdAt).toLocaleString() %></span>
+        </div>
+        <div class="bg-brandSurface border border-brandBorder p-5 rounded-2xl rounded-tl-none">
+          <p class="text-gray-200 text-sm"><%= msg.content %></p>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+
+  <% if (isSubscribed) { %>
+    <div class="bg-brandSurface border border-brandBorder p-8 rounded-2xl">
+      <h3 class="font-serif text-2xl mb-6 italic">Post a Message</h3>
+      <form action="/topics/<%= topic._id %>/messages" method="POST" class="space-y-4">
+        <textarea name="content" required rows="4" placeholder="Type your reply..." 
+                  class="w-full bg-brandBg border border-brandBorder rounded-xl px-4 py-3 focus:outline-none focus:border-brandAccent transition text-sm"></textarea>
+        <button type="submit" class="bg-brandAccent text-black font-bold px-8 py-3 rounded-full hover:opacity-90 transition shadow-lg">Post</button>
+      </form>
     </div>
   <% } %>
-</div>
-
-<%- include('../partials/footer') %>
-
+</main>

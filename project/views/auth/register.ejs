@@ -1,35 +1,58 @@
 <%- include('../partials/header', { title: 'Register' }) %>
 
-<div class="auth-box">
-  <h1>Create account</h1>
-  <p class="auth-sub">Join Thread/ today</p>
+<div class="max-w-md mx-auto px-6 py-20">
+  <div class="text-center mb-10">
+    <h1 class="font-serif text-5xl mb-2 italic">Join Thread/</h1>
+    <p class="text-gray-500 font-mono text-xs uppercase tracking-widest">Create your account to start posting</p>
+  </div>
 
   <% if (error) { %>
-    <div class="alert alert-error"><%= error %></div>
+    <div class="bg-red-500/10 border border-red-500/50 text-red-500 px-4 py-3 rounded-xl mb-8 text-sm flex items-center gap-3">
+      <span class="text-lg">⚠️</span> <%= error %>
+    </div>
   <% } %>
 
-  <div>
-    <div class="form-group">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" form="reg-form" required placeholder="choose_a_username">
-    </div>
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" form="reg-form" required placeholder="you@example.com">
-    </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" form="reg-form" required placeholder="••••••••">
-    </div>
-    <div class="form-group">
-      <label for="confirmPassword">Confirm Password</label>
-      <input type="password" id="confirmPassword" name="confirmPassword" form="reg-form" required placeholder="••••••••">
-    </div>
-    <button type="submit" form="reg-form" class="btn btn-primary" style="width:100%">Create Account</button>
-  </div>
-  <form id="reg-form" action="/register" method="POST" style="display:none"></form>
+  <div class="bg-brandSurface border border-brandBorder p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brandAccent to-brandOrange opacity-50"></div>
 
-  <p class="auth-switch">Already have an account? <a href="/login">Login</a></p>
+    <form action="/register" method="POST" class="space-y-5">
+      <div>
+        <label class="block text-[10px] font-mono text-gray-500 uppercase mb-2 tracking-[0.2em]">Username</label>
+        <input type="text" name="username" required placeholder="Choose a handle"
+               class="w-full bg-brandBg border border-brandBorder rounded-xl px-4 py-3 focus:outline-none focus:border-brandAccent transition text-sm">
+      </div>
+
+      <div>
+        <label class="block text-[10px] font-mono text-gray-500 uppercase mb-2 tracking-[0.2em]">Email Address</label>
+        <input type="email" name="email" required placeholder="you@example.com"
+               class="w-full bg-brandBg border border-brandBorder rounded-xl px-4 py-3 focus:outline-none focus:border-brandAccent transition text-sm">
+      </div>
+
+      <div class="grid grid-cols-1 gap-5">
+        <div>
+          <label class="block text-[10px] font-mono text-gray-500 uppercase mb-2 tracking-[0.2em]">Password</label>
+          <input type="password" name="password" required placeholder="••••••••"
+                 class="w-full bg-brandBg border border-brandBorder rounded-xl px-4 py-3 focus:outline-none focus:border-brandAccent transition text-sm">
+        </div>
+        <div>
+          <label class="block text-[10px] font-mono text-gray-500 uppercase mb-2 tracking-[0.2em]">Confirm Password</label>
+          <input type="password" name="confirmPassword" required placeholder="••••••••"
+                 class="w-full bg-brandBg border border-brandBorder rounded-xl px-4 py-3 focus:outline-none focus:border-brandAccent transition text-sm">
+        </div>
+      </div>
+
+      <button type="submit" class="w-full bg-brandAccent text-black font-bold py-4 rounded-xl hover:opacity-90 transition mt-4 shadow-lg shadow-brandAccent/10">
+        Create Account
+      </button>
+    </form>
+
+    <div class="mt-8 pt-6 border-t border-brandBorder text-center">
+      <p class="text-sm text-gray-500">
+        Already have an account? 
+        <a href="/login" class="text-brandAccent hover:underline font-bold">Sign In</a>
+      </p>
+    </div>
+  </div>
 </div>
 
 <%- include('../partials/footer') %>
