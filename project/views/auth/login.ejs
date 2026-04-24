@@ -1,13 +1,23 @@
-<%- include('partials/header', { title: 'Login' }) %>
-<div class="max-w-md mx-auto py-24 px-6">
-  <div class="bg-brandSurface border border-brandBorder p-8 rounded-3xl shadow-2xl">
-    <h1 class="font-serif text-4xl mb-8 italic">Sign In</h1>
-    <form action="/login" method="POST" class="space-y-6">
-      <input type="text" name="username" placeholder="Username" class="w-full bg-brandBg border border-brandBorder rounded-xl px-4 py-3 focus:border-brandAccent transition text-white">
-      <input type="password" name="password" placeholder="Password" class="w-full bg-brandBg border border-brandBorder rounded-xl px-4 py-3 focus:border-brandAccent transition text-white">
-      <button class="w-full bg-brandAccent text-black font-bold py-4 rounded-xl transition">Login</button>
-    </form>
-    <p class="mt-6 text-center text-sm text-gray-500">No account? <a href="/register" class="text-brandAccent">Register</a></p>
-  </div>
+<%- include('../partials/header', { title: 'Login' }) %> <div class="max-w-md mx-auto py-24 px-6">
+    <div class="bg-brandSurface border border-brandBorder p-8 rounded-3xl shadow-2xl">
+        <h1 class="font-serif text-4xl mb-8 italic">Sign In</h1>
+        
+        <form action="/login" method="POST" class="space-y-6">
+            <input type="text" name="username" placeholder="Username" 
+                   class="w-full bg-[#0a0a0a] border border-brandBorder p-4 rounded-xl text-white outline-none focus:border-brandAccent transition">
+            
+            <input type="password" name="password" placeholder="Password" 
+                   class="w-full bg-[#0a0a0a] border border-brandBorder p-4 rounded-xl text-white outline-none focus:border-brandAccent transition">
+            
+            <button type="submit" class="w-full bg-brandAccent text-black font-bold py-4 rounded-xl transition hover:bg-white hover:scale-[1.02]">
+                Login
+            </button>
+        </form>
+
+        <p class="mt-6 text-center text-sm text-gray-500">
+            No account? <a href="/register" class="text-brandAccent hover:underline">Register</a>
+        </p>
+    </div>
 </div>
-<%- include('partials/footer') %>
+
+<%- include('../partials/footer') %> ```
