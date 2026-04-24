@@ -1,21 +1,52 @@
-<%- include('../partials/header') %>
+<%- include('../partials/header', { title: 'Topics' }) %>
 
-<h2>Browse Topics</h2>
-
-<a href="/topics/dashboard" class="btn btn-secondary mb-3">Back</a>
-
-<% topics.forEach(t => { %>
-  <div class="card p-3 mt-2">
-    <h4><%= t.title %></h4>
-
-    <% if (subscriptions.includes(t._id.toString())) { %>
-      <span class="badge bg-success">Subscribed</span>
-    <% } else { %>
-      <form method="POST" action="/topics/<%= t._id %>/subscribe">
-        <button class="btn btn-primary btn-sm">Subscribe</button>
-      </form>
-    <% } %>
+<div class="container">
+  <div class="page-header">
+    <h1>All Topics</h1>
+    <p class="subtitle">Browse and subscribe to conversations</p>
   </div>
-<% }) %>
+
+  <div style="margin-bottom: 1.5rem;">
+    <a href="/topics/new" class="btn btn-primary">+ Start New Topic</a>
+    <a href="/dashboard" class="btn btn-outline" style="margin-left: 0.5rem;">← Dashboard</a>
+  </div>
+
+  <% if (topics.length === 0) { %>
+    <div class="empty">
+      <div class="empty-icon">🌱</div>
+      <p>No topics yet. Start one!</p>
+    </div>
+  <% } else { %>
+    <% topics.forEach(topic => { %>
+      <% const isSubscribed = subscribedIds.includes(topic._id.toString()); %>
+      <div class="topic-row">
+        <div class="topic-row-info">
+          <a href="/topics/<%= topic._id %>" class="topic-row-title"><%= topic.title %></a>
+          <div class="card-meta" style="margin-top: 0.2rem;">
+            Started by @<%= topic.createdBy.username %> ·
+            <%= topic.subscribers.length %> subscriber<%= topic.subscribers.length !== 1 ? 's' : '' %>
+          </div>
+          <% if (topic.description) { %>
+            <div style="font-size: 0.83rem; color: #999; margin-top: 0.3rem;"><%= topic.description %></div>
+          <% } %>
+        </div>
+        <div class="topic-row-actions">
+          <% if (isSubscribed) { %>
+            <span class="badge">Subscribed</span>
+            <form action="/topics/<%= topic._id %>/unsubscribe" method="POST" style="display:inline">
+              <button type="submit" class="btn btn-danger btn-sm">Leave</button>
+            </form>
+          <% } else { %>
+            <form action="/topics/<%= topic._id %>/subscribe" method="POST" style="display:inline">
+              <button type="submit" class="btn btn-subscribe">Subscribe</button>
+            </form>
+          <% } %>
+          <a href="/topics/<%= topic._id %>" class="btn btn-outline btn-sm">View →</a>
+        </div>
+      </div>
+    <% }) %>
+  <% } %>
+</div>
 
 <%- include('../partials/footer') %>
+

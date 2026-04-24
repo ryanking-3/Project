@@ -1,20 +1,19 @@
-const router = require('express').Router();
-const ctrl = require('../controllers/topicController');
-const msg = require('../controllers/messageController');
-const auth = require('../middleware/auth');
+// routes/topics.js
+const express = require('express');
+const router  = express.Router();
+const topicController   = require('../controllers/topicController');
+const messageController = require('../controllers/messageController');
+const { requireAuth } = require('../middleware/auth');
 
-router.get('/', auth, ctrl.browse);
-router.get('/dashboard', auth, ctrl.dashboard);
-router.get('/new', auth, (req, res) => res.render('topics/new'));
+router.get('/',           requireAuth, topicController.getAllTopics);
+router.get('/new',        requireAuth, topicController.getNewTopic);
+router.post('/',          requireAuth, topicController.postNewTopic);
+router.get('/:id',        requireAuth, topicController.getTopic);
+router.post('/:id/subscribe',   requireAuth, topicController.subscribe);
+router.post('/:id/unsubscribe', requireAuth, topicController.unsubscribe);
 
-router.post('/new', auth, ctrl.create);
-
-router.get('/stats', auth, ctrl.stats);
-
-router.post('/:id/subscribe', auth, ctrl.subscribe);
-router.post('/:id/unsubscribe', auth, ctrl.unsubscribe);
-
-router.get('/:id', auth, ctrl.show);
-router.post('/:id/message', auth, msg.create);
+// Messages within a topic
+router.post('/:topicId/messages',        requireAuth, messageController.postMessage);
+router.post('/messages/:id/delete',      requireAuth, messageController.deleteMessage);
 
 module.exports = router;

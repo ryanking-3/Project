@@ -1,15 +1,30 @@
+// observers/EventEmitter.js
+// Observer Pattern Implementation
+
 class EventSystem {
   constructor() {
-    this.observers = [];
+    this.listeners = {};
   }
 
-  subscribe(observer) {
-    this.observers.push(observer);
+  subscribe(event, listener) {
+    if (!this.listeners[event]) {
+      this.listeners[event] = [];
+    }
+    this.listeners[event].push(listener);
   }
 
-  notify(data) {
-    this.observers.forEach(o => o.update(data));
+  unsubscribe(event, listener) {
+    if (!this.listeners[event]) return;
+    this.listeners[event] = this.listeners[event].filter(l => l !== listener);
+  }
+
+  notify(event, data) {
+    if (!this.listeners[event]) return;
+    this.listeners[event].forEach(listener => listener(data));
   }
 }
 
-module.exports = new EventSystem();
+// Singleton event system
+const eventSystem = new EventSystem();
+
+module.exports = eventSystem;
