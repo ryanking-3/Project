@@ -1,23 +1,34 @@
-<%- include('../partials/header', { title: 'Login' }) %> <div class="max-w-md mx-auto py-24 px-6">
-    <div class="bg-brandSurface border border-brandBorder p-8 rounded-3xl shadow-2xl">
-        <h1 class="font-serif text-4xl mb-8 italic">Sign In</h1>
+<%- include('../partials/header', { title: 'Login' }) %>
+
+<div class="max-w-md mx-auto py-24 px-6">
+    <div class="bg-brandSurface border border-brandBorder p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1 bg-[#E8FF4D]"></div>
+        
+        <h1 class="font-serif text-4xl mb-8 italic text-white">Sign In/</h1>
         
         <form action="/login" method="POST" class="space-y-6">
-            <input type="text" name="username" placeholder="Username" 
-                   class="w-full bg-[#0a0a0a] border border-brandBorder p-4 rounded-xl text-white outline-none focus:border-brandAccent transition">
+            <div>
+                <label class="block text-[10px] font-mono text-gray-400 uppercase mb-2 tracking-widest">Username</label>
+                <input type="text" name="username" required placeholder="your_handle" 
+                       class="w-full bg-[#0a0a0a] border border-brandBorder p-4 rounded-xl text-white outline-none focus:border-[#E8FF4D] transition">
+            </div>
             
-            <input type="password" name="password" placeholder="Password" 
-                   class="w-full bg-[#0a0a0a] border border-brandBorder p-4 rounded-xl text-white outline-none focus:border-brandAccent transition">
+            <div>
+                <label class="block text-[10px] font-mono text-gray-400 uppercase mb-2 tracking-widest">Password</label>
+                <input type="password" name="password" required placeholder="••••••••" 
+                       class="w-full bg-[#0a0a0a] border border-brandBorder p-4 rounded-xl text-white outline-none focus:border-[#E8FF4D] transition">
+            </div>
             
-            <button type="submit" class="w-full bg-brandAccent text-black font-bold py-4 rounded-xl transition hover:bg-white hover:scale-[1.02]">
-                Login
+            <button type="submit" 
+                    class="w-full bg-[#E8FF4D] text-black font-bold py-4 rounded-xl transition-all duration-300 hover:bg-white hover:shadow-[0_0_20px_rgba(232,255,77,0.4)] active:scale-95 uppercase tracking-widest text-xs">
+                Login to System
             </button>
         </form>
 
-        <p class="mt-6 text-center text-sm text-gray-500">
-            No account? <a href="/register" class="text-brandAccent hover:underline">Register</a>
+        <p class="mt-8 text-center text-[10px] font-mono text-gray-500 uppercase tracking-widest">
+            No account? <a href="/register" class="text-[#E8FF4D] hover:underline">Register Handle</a>
         </p>
     </div>
 </div>
 
-<%- include('../partials/footer') %> ```
+<%- include('../partials/footer') %>
