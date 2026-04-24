@@ -5,22 +5,29 @@ const User    = require('../models/User');
 const eventSystem = require('../observers/EventSystem');
 
 
-exports.getDashboard = async (req, res) => {
+exports.dashboard = async (req, res) => {
   try {
-    const user = await User.findById(req.session.userId).populate('subscribedTopics');
-    const topicsWithMessages = await Promise.all(
-      user.subscribedTopics.map(async (topic) => {
+    const topics = await Topic.find();
+
+    const data = await Promise.all(
+      topics.map(async (topic) => {
         const messages = await Message.find({ topic: topic._id })
           .sort({ createdAt: -1 })
-          .limit(2)
-          .populate('author', 'username');
-        return { topic, messages };
+          .limit(2);
+
+        return {
+          topicId: topic._id,
+          topicName: topic.title, // ⚠️ YOU use "title" not "name"
+          messages
+        };
       })
     );
-    res.render('dashboard', { user, topicsWithMessages });
+
+    res.render("dashboard", { data });
+
   } catch (err) {
-    console.error(err);
-    res.redirect('/login');
+    console.error("DASHBOARD ERROR:", err);
+    res.status(500).send("Internal Server Error");
   }
 };
 
