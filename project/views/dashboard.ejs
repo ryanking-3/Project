@@ -3,13 +3,12 @@
   <h1 class="font-serif text-5xl mb-12 italic text-brandAccent">@<%= user.username %></h1>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
     <% topicsWithMessages.forEach(({ topic, messages }) => { %>
-      <div class="bg-brandSurface border border-brandBorder p-8 rounded-2xl hover:border-brandAccent/40 transition">
-        <a href="/topics/<%= topic._id %>" class="font-serif text-3xl block mb-6 hover:text-brandAccent"><%= topic.title %></a>
-        <div class="space-y-4">
+      <div class="bg-brandSurface border border-brandBorder p-8 rounded-2xl">
+        <a href="/topics/<%= topic._id %>" class="font-serif text-3xl hover:text-brandAccent"><%= topic.title %></a>
+        <div class="mt-6 space-y-4">
           <% messages.forEach(msg => { %>
-            <div class="border-l border-brandAccent/30 pl-4">
-              <div class="text-[10px] font-mono text-brandAccent">@<%= msg.author.username %></div>
-              <p class="text-gray-300 text-sm"><%= msg.content %></p>
+            <div class="border-l border-brandAccent/30 pl-4 text-sm text-gray-300">
+              <span class="text-brandAccent">@<%= msg.author.username %></span>: <%= msg.content %>
             </div>
           <% }) %>
         </div>

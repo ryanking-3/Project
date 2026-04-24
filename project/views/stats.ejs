@@ -1,18 +1,16 @@
 <%- include('partials/header', { title: 'Stats' }) %>
-<div class="max-w-3xl mx-auto px-6 py-20">
-  <h1 class="font-serif text-5xl mb-12 italic text-center text-brandAccent">Topic Hits</h1>
-  <div class="space-y-6">
-    <% topics.forEach((topic) => { %>
-      <div class="bg-brandSurface p-6 rounded-xl border border-brandBorder">
-        <div class="flex justify-between items-end mb-2">
-          <span class="font-bold"><%= topic.title %></span>
-          <span class="text-xs font-mono text-brandAccent"><%= topic.accessCount %> ACCESSES</span>
-        </div>
-        <div class="h-1 bg-white/5 w-full rounded-full overflow-hidden">
-          <div class="h-full bg-brandAccent" style="width: <%= (topic.accessCount / maxAccess * 100) %>%"></div>
-        </div>
+<div class="max-w-3xl mx-auto py-20 px-6">
+  <h1 class="font-serif text-5xl mb-12 italic text-center">Stats</h1>
+  <% topics.forEach(topic => { %>
+    <div class="bg-brandSurface p-6 rounded-xl border border-brandBorder mb-4">
+      <div class="flex justify-between mb-2 font-bold uppercase text-xs tracking-widest text-brandAccent">
+        <span><%= topic.title %></span>
+        <span><%= topic.accessCount %> Hits</span>
       </div>
-    <% }) %>
-  </div>
+      <div class="h-1 bg-white/10 rounded-full overflow-hidden">
+        <div class="h-full bg-brandAccent" style="width: <%= (topic.accessCount / maxAccess * 100) %>%"></div>
+      </div>
+    </div>
+  <% }) %>
 </div>
 <%- include('partials/footer') %>

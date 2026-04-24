@@ -10,16 +10,16 @@
       <div class="py-8 flex justify-between items-center group">
         <div>
           <a href="/topics/<%= topic._id %>" class="font-serif text-2xl group-hover:text-brandAccent transition"><%= topic.title %></a>
-          <div class="text-[11px] font-mono uppercase text-gray-500 mt-1">@<%= topic.createdBy.username %> · <%= topic.subscribers.length %> subs</div>
+          <div class="text-[11px] font-mono uppercase text-gray-500 mt-1">Started by @<%= topic.createdBy.username %></div>
         </div>
         <div class="flex items-center gap-4">
           <% if (isSubscribed) { %>
             <form action="/topics/<%= topic._id %>/unsubscribe" method="POST">
-              <button class="text-xs text-gray-500 hover:text-red-400 font-bold underline transition">Leave</button>
+              <button class="text-xs text-red-400 font-bold underline transition">Unsubscribe</button>
             </form>
           <% } else { %>
             <form action="/topics/<%= topic._id %>/subscribe" method="POST">
-              <button class="bg-white/5 border border-white/10 px-6 py-2 rounded-full text-sm font-bold hover:bg-brandAccent hover:text-black transition">Subscribe</button>
+              <button class="bg-brandAccent text-black px-6 py-2 rounded-full text-sm font-bold hover:opacity-80 transition">Subscribe</button>
             </form>
           <% } %>
         </div>

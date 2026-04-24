@@ -1,27 +1,65 @@
 <%- include('../partials/header', { title: topic.title }) %>
-<main class="max-w-4xl mx-auto px-6 py-12">
-  <header class="mb-12 border-b border-brandBorder pb-8">
-    <h1 class="font-serif text-5xl italic mb-4"><%= topic.title %></h1>
-    <p class="text-gray-400 mb-6"><%= topic.description %></p>
-    <div class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">
-      Views: <%= topic.accessCount %> | Author: @<%= topic.createdBy.username %>
+
+<div class="max-w-4xl mx-auto px-6 py-12">
+  <a href="/topics" class="text-gray-500 hover:text-brandAccent text-xs font-mono uppercase tracking-widest transition mb-8 inline-block">← Back to topics</a>
+
+  <header class="mb-12 border-b border-brandBorder pb-10">
+    <div class="flex justify-between items-start mb-4">
+      <h1 class="font-serif text-6xl italic"><%= topic.title %></h1>
+      <% if (isSubscribed) { %>
+        <span class="bg-brandAccent/10 text-brandAccent border border-brandAccent/30 text-[10px] font-bold px-3 py-1 rounded-full uppercase">Subscribed</span>
+      <% } %>
+    </div>
+    <p class="text-gray-400 text-lg mb-6 leading-relaxed"><%= topic.description %></p>
+    <div class="flex gap-6 text-[10px] font-mono text-gray-600 uppercase tracking-widest">
+      <span>By <span class="text-gray-300">@<%= topic.createdBy.username %></span></span>
+      <span>•</span>
+      <span><%= topic.accessCount %> Views</span>
     </div>
   </header>
 
-  <div class="space-y-6 mb-12">
-    <% topic.messages.forEach(msg => { %>
-      <div class="bg-brandSurface border border-brandBorder p-5 rounded-2xl">
-        <div class="text-xs font-mono text-brandAccent mb-2">@<%= msg.author.username %></div>
-        <p class="text-gray-300"><%= msg.content %></p>
+  <div class="space-y-8 mb-16">
+    <% if (topic.messages.length === 0) { %>
+      <div class="text-center py-20 border border-dashed border-brandBorder rounded-3xl">
+        <p class="text-gray-600 italic">No messages yet. Start the conversation below.</p>
       </div>
-    <% }) %>
+    <% } else { %>
+      <% topic.messages.forEach(msg => { %>
+        <div class="group">
+          <div class="flex justify-between items-end mb-2">
+            <span class="text-brandAccent font-mono text-xs uppercase tracking-tighter">@<%= msg.author.username %></span>
+            <span class="text-[9px] text-gray-700 font-mono"><%= new Date(msg.createdAt).toLocaleString() %></span>
+          </div>
+          <div class="bg-brandSurface border border-brandBorder p-6 rounded-2xl group-hover:border-brandAccent/30 transition">
+            <p class="text-gray-300 leading-relaxed"><%= msg.content %></p>
+          </div>
+        </div>
+      <% }) %>
+    <% } %>
   </div>
 
   <% if (isSubscribed) { %>
-    <form action="/topics/<%= topic._id %>/messages" method="POST" class="bg-brandSurface p-6 rounded-2xl border border-brandAccent/20">
-      <textarea name="content" required placeholder="Write a message..." class="w-full bg-brandBg border border-brandBorder rounded-xl p-4 focus:outline-none focus:border-brandAccent transition mb-4"></textarea>
-      <button class="bg-brandAccent text-black font-bold px-8 py-2 rounded-full">Post Message</button>
-    </form>
+    <div class="bg-brandSurface border border-brandAccent/20 p-8 rounded-3xl shadow-2xl sticky bottom-8">
+      <form action="/topics/<%= topic._id %>/messages" method="POST" class="space-y-4">
+        <textarea name="content" required placeholder="Type your message..." 
+                  class="w-full bg-brandBg border border-brandBorder rounded-xl p-4 focus:outline-none focus:border-brandAccent transition text-white min-h-[100px]"></textarea>
+        <div class="flex justify-end">
+          <button type="submit" class="bg-brandAccent text-black font-bold px-10 py-3 rounded-full hover:scale-105 transition">
+            Post Message
+          </button>
+        </div>
+      </form>
+    </div>
+  <% } else { %>
+    <div class="text-center bg-brandSurface border border-brandBorder p-10 rounded-3xl">
+      <p class="text-gray-500 mb-6 font-serif text-xl italic">Join this topic to participate</p>
+      <form action="/topics/<%= topic._id %>/subscribe" method="POST">
+        <button class="bg-white text-black font-bold px-12 py-3 rounded-full hover:bg-brandAccent transition">
+          Subscribe Now
+        </button>
+      </form>
+    </div>
   <% } %>
-</main>
+</div>
+
 <%- include('../partials/footer') %>
