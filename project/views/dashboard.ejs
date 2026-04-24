@@ -1,59 +1,38 @@
-<%- include('partials/header', { title: 'Dashboard' }) %>
+<%- include("partials/header") %>
 
-<div class="container">
-  <div class="page-header">
-    <h1>Good day, <span class="text-accent">@<%= user.username %></span></h1>
-    <p class="subtitle">Your subscribed topics — showing 2 most recent messages each</p>
-  </div>
+<h1 class="text-3xl font-bold mb-6">Dashboard</h1>
 
-  <div class="flex gap-1 items-center mt-2" style="margin-bottom: 2rem; flex-wrap: wrap; gap: 0.6rem;">
-    <a href="/topics" class="btn btn-outline">Browse All Topics</a>
-    <a href="/topics/new" class="btn btn-primary">+ Start New Topic</a>
-  </div>
-
-  <% if (topicsWithMessages.length === 0) { %>
-    <div class="empty">
-      <div class="empty-icon">📭</div>
-      <p>You haven't subscribed to any topics yet.</p>
-      <a href="/topics" class="btn btn-outline mt-2" style="margin-top: 1rem; display: inline-block;">Browse Topics</a>
-    </div>
-  <% } else { %>
-    <% topicsWithMessages.forEach(({ topic, messages }) => { %>
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <a href="/topics/<%= topic._id %>" class="card-title"><%= topic.title %></a>
-            <% if (topic.description) { %>
-              <p class="card-meta" style="margin-top: 0.2rem; text-transform: none; letter-spacing: 0;"><%= topic.description %></p>
-            <% } %>
-          </div>
-          <div class="flex gap-1 items-center">
-            <form action="/topics/<%= topic._id %>/unsubscribe" method="POST" style="display:inline">
-              <button type="submit" class="btn btn-danger btn-sm">Unsubscribe</button>
-            </form>
-          </div>
-        </div>
-
-        <% if (messages.length === 0) { %>
-          <p class="card-meta" style="margin-top: 0.5rem;">No messages yet. <a href="/topics/<%= topic._id %>" style="color: var(--accent);">Be the first!</a></p>
-        <% } else { %>
-          <% messages.forEach(msg => { %>
-            <div class="message-item">
-              <div class="message-author">@<%= msg.author.username %></div>
-              <div class="message-content"><%= msg.content %></div>
-              <div class="message-time"><%= new Date(msg.createdAt).toLocaleString() %></div>
-            </div>
-          <% }) %>
-        <% } %>
-
-        <div style="margin-top: 0.8rem;">
-          <a href="/topics/<%= topic._id %>" class="card-meta" style="color: var(--accent); text-decoration: none; font-size: 0.75rem;">
-            → View full topic
-          </a>
-        </div>
-      </div>
-    <% }) %>
-  <% } %>
+<div class="bg-white p-5 rounded-xl shadow mb-6">
+  <form action="/topics/create" method="POST" class="flex gap-2">
+    <input name="name" placeholder="New topic"
+      class="flex-1 p-3 border rounded-lg" required>
+    <input type="hidden" name="userId" value="<%= userId %>">
+    <button class="bg-indigo-600 text-white px-4 rounded-lg">Create</button>
+  </form>
 </div>
 
-<%- include('partials/footer') %>
+<% data.forEach(topic => { %>
+
+  <div class="bg-white p-5 rounded-xl shadow mb-4">
+
+    <h2 class="text-xl font-semibold mb-2"><%= topic.topicName %></h2>
+
+    <form action="/topics/message" method="POST" class="flex gap-2 mb-3">
+      <input name="content" placeholder="Write message..."
+        class="flex-1 p-2 border rounded-lg" required>
+      <input type="hidden" name="topicId" value="<%= topic.topicId %>">
+      <input type="hidden" name="userId" value="<%= userId %>">
+      <button class="bg-green-600 text-white px-4 rounded-lg">Post</button>
+    </form>
+
+    <% topic.messages.forEach(msg => { %>
+      <div class="border p-2 mb-2 rounded bg-gray-50">
+        <%= msg.content %>
+      </div>
+    <% }) %>
+
+  </div>
+
+<% }) %>
+
+<%- include("partials/footer") %>

@@ -1,35 +1,28 @@
-<%- include('../partials/header', { title: 'Register' }) %>
+<%- include("../partials/header") %>
 
-<div class="auth-box">
-  <h1>Create account</h1>
-  <p class="auth-sub">Join Thread/ today</p>
+<div class="flex justify-center mt-16">
+  <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
 
-  <% if (error) { %>
-    <div class="alert alert-error"><%= error %></div>
-  <% } %>
+    <h2 class="text-2xl font-bold text-center mb-6">Register</h2>
 
-  <div>
-    <div class="form-group">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" form="reg-form" required placeholder="choose_a_username">
-    </div>
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" form="reg-form" required placeholder="you@example.com">
-    </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" form="reg-form" required placeholder="••••••••">
-    </div>
-    <div class="form-group">
-      <label for="confirmPassword">Confirm Password</label>
-      <input type="password" id="confirmPassword" name="confirmPassword" form="reg-form" required placeholder="••••••••">
-    </div>
-    <button type="submit" form="reg-form" class="btn btn-primary" style="width:100%">Create Account</button>
+    <form action="/register" method="POST" class="space-y-4">
+
+      <input type="text" name="username" placeholder="Username"
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-400" required>
+
+      <input type="email" name="email" placeholder="Email"
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-400" required>
+
+      <input type="password" name="password" placeholder="Password"
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-400" required>
+
+      <button class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700">
+        Register
+      </button>
+
+    </form>
+
   </div>
-  <form id="reg-form" action="/register" method="POST" style="display:none"></form>
-
-  <p class="auth-switch">Already have an account? <a href="/login">Login</a></p>
 </div>
 
-<%- include('../partials/footer') %>
+<%- include("../partials/footer") %>

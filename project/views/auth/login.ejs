@@ -1,27 +1,28 @@
-<%- include('../partials/header', { title: 'Login' }) %>
+<%- include("../partials/header") %>
 
-<div class="auth-box">
-  <h1>Welcome back</h1>
-  <p class="auth-sub">Sign in to Thread/</p>
+<div class="flex justify-center mt-16">
+  <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
 
-  <% if (error) { %>
-    <div class="alert alert-error"><%= error %></div>
-  <% } %>
+    <h2 class="text-2xl font-bold text-center mb-6">Login</h2>
 
-  <div>
-    <div class="form-group">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" form="login-form" required placeholder="your_username">
-    </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" form="login-form" required placeholder="••••••••">
-    </div>
-    <button type="submit" form="login-form" class="btn btn-primary" style="width:100%">Sign In</button>
+    <form action="/login" method="POST" class="space-y-4">
+      <input type="email" name="email" placeholder="Email"
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-400" required>
+
+      <input type="password" name="password" placeholder="Password"
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-400" required>
+
+      <button class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700">
+        Login
+      </button>
+    </form>
+
+    <p class="text-center mt-4 text-sm">
+      Don’t have an account?
+      <a href="/register" class="text-indigo-600">Register</a>
+    </p>
+
   </div>
-  <form id="login-form" action="/login" method="POST" style="display:none"></form>
-
-  <p class="auth-switch">No account? <a href="/register">Register here</a></p>
 </div>
 
-<%- include('../partials/footer') %>
+<%- include("../partials/footer") %>
