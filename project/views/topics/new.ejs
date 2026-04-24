@@ -1,45 +1,15 @@
 <%- include('../partials/header', { title: 'New Topic' }) %>
 
-<div class="max-w-md mx-auto py-20 px-6">
-    <div class="text-center mb-10">
-        <h1 class="font-serif text-5xl mb-2 italic text-white">New Thread/</h1>
-        <p class="text-gray-500 font-mono text-xs uppercase tracking-widest">Establish a new channel of communication</p>
-    </div>
-
-    <div class="bg-brandSurface border border-brandBorder p-8 rounded-3xl shadow-2xl relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-1 bg-[#E8FF4D]"></div>
-
-        <% if (error) { %>
-            <p class="bg-red-900/20 border border-red-900 text-red-500 p-3 rounded-lg mb-6 text-xs font-mono uppercase">
-                <%= error %>
-            </p>
-        <% } %>
-
-        <form action="/topics/new" method="POST" class="space-y-6">
-            <div>
-                <label class="block text-[10px] font-mono text-gray-400 uppercase mb-2 tracking-widest">Topic Title</label>
-                <input type="text" name="title" required placeholder="thread_subject"
-                       class="w-full bg-[#0a0a0a] border border-brandBorder rounded-xl px-4 py-3 focus:outline-none focus:border-[#E8FF4D] transition text-sm text-white">
-            </div>
-
-            <div>
-                <label class="block text-[10px] font-mono text-gray-400 uppercase mb-2 tracking-widest">Description</label>
-                <textarea name="description" rows="4" placeholder="Briefly describe the purpose of this thread..."
-                          class="w-full bg-[#0a0a0a] border border-brandBorder rounded-xl px-4 py-3 focus:outline-none focus:border-[#E8FF4D] transition text-sm text-white"></textarea>
-            </div>
-
-            <button type="submit" 
-                    class="w-full bg-[#E8FF4D] text-black font-bold py-4 rounded-xl transition-all duration-300 hover:bg-white hover:shadow-[0_0_20px_rgba(232,255,77,0.4)] mt-4 active:scale-95 uppercase tracking-widest text-xs">
-                Initialize Topic
-            </button>
-        </form>
-        
-        <div class="mt-6 text-center">
-            <a href="/dashboard" class="text-[10px] font-mono text-gray-500 hover:text-white transition uppercase tracking-widest">
-                ← Cancel and Return
-            </a>
-        </div>
-    </div>
-</div>
+<form action="/topics/new" method="POST" class="space-y-6">
+    <input type="text" name="title" required placeholder="Topic Title" 
+           class="w-full bg-[#0a0a0a] border border-brandBorder p-4 rounded-xl text-white">
+    
+    <textarea name="description" placeholder="Description" 
+              class="w-full bg-[#0a0a0a] border border-brandBorder p-4 rounded-xl text-white"></textarea>
+    
+    <button type="submit" class="w-full bg-[#E8FF4D] text-black font-bold py-4 rounded-xl">
+        Create Topic
+    </button>
+</form>
 
 <%- include('../partials/footer') %>
