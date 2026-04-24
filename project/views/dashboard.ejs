@@ -1,14 +1,21 @@
 <%- include('partials/header', { title: 'Dashboard' }) %>
+<%- include('partials/footer') %>
 <main class="max-w-6xl mx-auto px-6 py-12">
   <h1 class="font-serif text-5xl mb-12 italic text-brandAccent">@<%= user.username %></h1>
+  
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
     <% topicsWithMessages.forEach(({ topic, messages }) => { %>
-      <div class="bg-brandSurface border border-brandBorder p-8 rounded-2xl">
-        <a href="/topics/<%= topic._id %>" class="font-serif text-3xl hover:text-brandAccent"><%= topic.title %></a>
-        <div class="mt-6 space-y-4">
+      <div class="bg-brandSurface border border-brandBorder p-8 rounded-3xl hover:border-brandAccent/40 transition-all">
+        <a href="/topics/<%= topic._id %>" class="font-serif text-3xl block mb-6 hover:text-brandAccent transition"><%= topic.title %></a>
+        
+        <div class="space-y-4">
+          <% if (messages.length === 0) { %>
+            <p class="text-gray-600 text-xs font-mono italic">No recent activity.</p>
+          <% } %>
           <% messages.forEach(msg => { %>
-            <div class="border-l border-brandAccent/30 pl-4 text-sm text-gray-300">
-              <span class="text-brandAccent">@<%= msg.author.username %></span>: <%= msg.content %>
+            <div class="border-l-2 border-brandAccent/20 pl-4 py-1">
+              <div class="text-[10px] font-mono text-brandAccent uppercase tracking-tighter">@<%= msg.author.username %></div>
+              <p class="text-gray-400 text-sm leading-relaxed line-clamp-2"><%= msg.content %></p>
             </div>
           <% }) %>
         </div>
@@ -16,4 +23,5 @@
     <% }) %>
   </div>
 </main>
+
 <%- include('partials/footer') %>
