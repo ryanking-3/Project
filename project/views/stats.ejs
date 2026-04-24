@@ -1,22 +1,26 @@
-<%- include("partials/header") %>
+<%- include('partials/header') %>
 
-<h1 class="mb-4">Topic Stats</h1>
+<h2 class="mb-4">Topic Statistics</h2>
 
-<div class="row">
+<% if (topics.length === 0) { %>
+  <p>No topics yet.</p>
+<% } %>
 
-  <% topics.forEach(topic => { %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Topic</th>
+      <th>Views</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% topics.forEach(t => { %>
+      <tr>
+        <td><%= t.title %></td>
+        <td><%= t.accessCount %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
 
-    <div class="col-md-4 mb-3">
-      <div class="card p-3 text-center shadow-sm">
-
-        <h5><%= topic.name %></h5>
-        <h2 class="text-primary"><%= topic.accessCount %></h2>
-
-      </div>
-    </div>
-
-  <% }) %>
-
-</div>
-
-<%- include("partials/footer") %>
+<%- include('partials/footer') %>

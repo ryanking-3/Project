@@ -1,33 +1,44 @@
-<%- include("partials/header") %>
+<%- include('partials/header') %>
 
-<h1 class="mb-4">Dashboard</h1>
+<h2 class="mb-3">Dashboard</h2>
 
-<div class="card p-3 mb-4">
-  <form action="/topics/create" method="POST" class="d-flex gap-2">
-    <input class="form-control" name="name" placeholder="New topic" required>
-    <button class="btn btn-primary">Create</button>
-  </form>
+<div class="mb-3">
+  <a href="/topics/new" class="btn btn-primary">+ New Topic</a>
+  <a href="/topics" class="btn btn-info">Browse Topics</a>
+  <a href="/topics/stats" class="btn btn-secondary">Stats</a>
 </div>
 
-<% data.forEach(topic => { %>
+<% if (data.length === 0) { %>
+  <p>You are not subscribed to any topics yet.</p>
+<% } %>
 
-  <div class="card p-3 mb-3">
+<% data.forEach(d => { %>
+  <div class="card mt-3 p-3">
 
-    <h5><%= topic.topicName %></h5>
+    <div class="d-flex justify-content-between align-items-center">
+      <h4>
+        <a href="/topics/<%= d.topic._id %>"><%= d.topic.title %></a>
+      </h4>
 
-    <form action="/topics/message" method="POST" class="d-flex gap-2 mb-3">
-      <input class="form-control" name="content" placeholder="Message..." required>
-      <button class="btn btn-success">Post</button>
-    </form>
+      <form method="POST" action="/topics/<%= d.topic._id %>/unsubscribe">
+        <button class="btn btn-outline-danger btn-sm">Unsubscribe</button>
+      </form>
+    </div>
 
-    <% topic.messages.forEach(msg => { %>
-      <div class="message-box">
-        <%= msg.content %>
-      </div>
+    <hr>
+
+    <% if (d.messages.length === 0) { %>
+      <p>No messages yet.</p>
+    <% } %>
+
+    <% d.messages.forEach(m => { %>
+      <p>
+        <strong><%= m.author.username %>:</strong>
+        <%= m.content %>
+      </p>
     <% }) %>
 
   </div>
-
 <% }) %>
 
-<%- include("partials/footer") %>
+<%- include('partials/footer') %>

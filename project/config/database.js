@@ -1,38 +1,14 @@
 const mongoose = require('mongoose');
 
-class Database {
-  constructor() {
-    if (Database.instance) {
-      return Database.instance;
-    }
-    this.connection = null;
-    Database.instance = this;
-  }
+let instance = null;
 
-  async connect() {
-    if (this.connection) {
-      console.log('Using existing DB connection (Singleton)');
-      return this.connection;
-    }
-    try {
-      this.connection = await mongoose.connect(process.env.MONGO_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      });
-      console.log('MongoDB connected (new Singleton connection)');
-      return this.connection;
-    } catch (err) {
-      console.error('MongoDB connection error:', err);
-      process.exit(1);
-    }
+async function connect() {
+  if (!instance) {
+    instance = await mongoose.connect('mongodb://127.0.0.1:27017/messageboard');
   }
-
-  static getInstance() {
-    if (!Database.instance) {
-      new Database();
-    }
-    return Database.instance;
-  }
+  return instance;
 }
 
-module.exports = Database.getInstance();
+connect();
+
+module.exports = mongoose;

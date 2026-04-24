@@ -1,49 +1,11 @@
-
 const Message = require('../models/Message');
-const Topic   = require('../models/Topic');
-const User    = require('../models/User');
-const eventSystem = require('../observers/EventSystem');
 
-// Post a message in a topic
-exports.postMessage = async (req, res) => {
-  try {
-    const { content } = req.body;
-    const topicId = req.params.topicId;
+exports.create = async (req, res) => {
+  await Message.create({
+    content: req.body.content,
+    author: req.session.user._id,
+    topic: req.params.id
+  });
 
-    const user = await User.findById(req.session.userId);
-    if (!user.subscribedTopics.includes(topicId)) {
-      return res.redirect(`/topics/${topicId}`);
-    }
-
-    const message = new Message({
-      content,
-      author: req.session.userId,
-      topic:  topicId
-    });
-    await message.save();
-
-    // Notify observers
-    eventSystem.notify('message:posted', { topicId, userId: req.session.userId });
-
-    res.redirect(`/topics/${topicId}`);
-  } catch (err) {
-    console.error(err);
-    res.redirect(`/topics/${req.params.topicId}`);
-  }
-};
-
-exports.deleteMessage = async (req, res) => {
-  try {
-    const message = await Message.findById(req.params.id);
-    if (!message) return res.redirect('/dashboard');
-    if (message.author.toString() !== req.session.userId.toString()) {
-      return res.redirect('/dashboard');
-    }
-    const topicId = message.topic;
-    await message.deleteOne();
-    res.redirect(`/topics/${topicId}`);
-  } catch (err) {
-    console.error(err);
-    res.redirect('/dashboard');
-  }
+  res.redirect(`/topics/${req.params.id}`);
 };
