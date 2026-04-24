@@ -1,9 +1,15 @@
 <%- include('partials/header', { title: '404' }) %>
-<div class="flex flex-col items-center justify-center min-h-[70vh] text-center px-6">
-  <h1 class="font-serif text-[10rem] leading-none text-brandAccent opacity-20 absolute">404</h1>
-  <div class="relative z-10">
-    <h2 class="font-serif text-5xl mb-6 italic">Lost in the threads?</h2>
-    <a href="/" class="bg-white text-black font-bold px-10 py-4 rounded-full hover:bg-brandAccent transition">Return Home</a>
+
+<div class="flex flex-col items-center justify-center min-h-[75vh] px-6">
+  <div class="relative">
+    <h1 class="font-serif text-[12rem] text-brandAccent opacity-5 select-none">404</h1>
+    <div class="absolute inset-0 flex flex-col items-center justify-center">
+      <h2 class="font-serif text-4xl mb-6 italic">Thread not found.</h2>
+      <a href="/" class="bg-white text-black font-bold px-10 py-3 rounded-full hover:bg-brandAccent transition shadow-xl">
+        Return Home
+      </a>
+    </div>
   </div>
 </div>
+
 <%- include('partials/footer') %>
