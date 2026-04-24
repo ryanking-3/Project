@@ -2,47 +2,47 @@
 
 <div class="max-w-4xl mx-auto px-6 py-20">
     <div class="mb-12 border-b border-brandBorder pb-8">
-        <h1 class="font-serif text-5xl mb-4 italic text-brandAccent"><%= topic.title %>/</h1>
-        <p class="text-gray-500 font-mono text-[10px] uppercase tracking-widest">Analytics: <%= topic.accessCount %> Hits</p>
+        <h1 class="font-serif text-5xl mb-4 italic text-[#E8FF4D]"><%= topic.title %>/</h1>
+        <p class="text-gray-500 font-mono text-[10px] uppercase tracking-widest">Analytics: <%= topic.accessCount %> Accesses</p>
     </div>
 
     <div class="space-y-6 mb-16">
-        <h2 class="font-mono text-[10px] text-gray-400 uppercase tracking-[0.3em] mb-4">Transmission History/</h2>
         <% if (messages && messages.length > 0) { %>
-            <% messages.slice(0, 2).forEach(msg => { %>
+            <% messages.forEach(msg => { %>
                 <div class="bg-brandSurface p-6 rounded-xl border border-brandBorder">
-                    <p class="text-gray-200 font-mono text-sm mb-2"><%= msg.content %></p>
-                    <span class="text-[10px] text-brandAccent uppercase font-bold">Author: <%= msg.author ? msg.author.username : 'Guest' %></span>
+                    <p class="text-gray-200 font-mono text-sm mb-3"><%= msg.content %></p>
+                    <div class="flex gap-4 text-[10px] font-mono uppercase text-gray-500">
+                        <span class="text-[#E8FF4D]">Author: @<%= msg.author ? msg.author.username : 'Unknown' %></span>
+                        <span>Sent: <%= msg.createdAt.toLocaleString() %></span>
+                    </div>
                 </div>
             <% }) %>
         <% } else { %>
-            <p class="text-gray-600 italic font-mono text-sm">Thread is currently empty.</p>
+            <p class="text-gray-600 italic font-mono text-sm text-center py-10">Thread is currently empty.</p>
         <% } %>
     </div>
 
     <% if (isSubscribed) { %>
-    <div class="bg-[#1a1a1a] p-8 rounded-2xl border border-brandAccent/30 shadow-2xl">
-        <h3 class="font-serif text-2xl mb-6 italic text-white">Broadcast/</h3>
-        
-        <form action="/topics/<%= topic._id %>/messages" method="POST" class="flex flex-col gap-4">
-            <textarea 
-                name="content" 
-                rows="4" 
-                required 
-                placeholder="Type your transmission here..." 
-                class="w-full bg-[#000000] border-2 border-brandBorder rounded-lg p-4 font-mono text-sm text-white placeholder-gray-500 focus:border-brandAccent outline-none transition-all"
-            ></textarea>
-            
-            <button type="submit" class="bg-brandAccent text-black font-mono text-xs px-10 py-4 rounded-full uppercase font-black tracking-[0.2em] hover:bg-white hover:scale-105 transition-all self-start shadow-[0_0_20px_rgba(232,255,77,0.3)]">
-                Send Message
-            </button>
-        </form>
-    </div>
+        <div class="bg-[#0f0f0f] p-8 rounded-3xl border border-[#E8FF4D]/10 shadow-2xl">
+            <h3 class="font-serif text-2xl mb-6 italic text-white">Broadcast/</h3>
+            <form action="/topics/<%= topic._id %>/messages" method="POST" class="flex flex-col gap-4">
+                <textarea 
+                    name="content" 
+                    rows="4" 
+                    required 
+                    placeholder="Type your transmission..." 
+                    class="w-full bg-[#050505] border border-brandBorder rounded-xl p-4 font-mono text-sm text-white focus:border-[#E8FF4D] outline-none transition-all"
+                ></textarea>
+                <button type="submit" class="bg-[#E8FF4D] text-black font-mono text-xs px-10 py-4 rounded-full uppercase font-black hover:bg-white transition-all self-start">
+                    Submit Message
+                </button>
+            </form>
+        </div>
     <% } else { %>
-        <div class="text-center p-10 border border-dashed border-brandBorder rounded-2xl">
-            <p class="text-gray-500 font-mono text-xs uppercase tracking-widest mb-4">You are not subscribed to this thread</p>
+        <div class="bg-[#0f0f0f] p-10 rounded-3xl border border-dashed border-brandBorder text-center">
+            <p class="text-gray-500 font-mono text-xs uppercase tracking-widest mb-6">Subscription required to post to this thread.</p>
             <form action="/topics/<%= topic._id %>/subscribe" method="POST">
-                <button type="submit" class="text-brandAccent hover:text-white font-mono text-[10px] uppercase underline tracking-widest">
+                <button type="submit" class="bg-white text-black font-mono text-[10px] px-8 py-3 rounded-full uppercase font-bold hover:bg-[#E8FF4D] transition-all">
                     Join Conversation
                 </button>
             </form>

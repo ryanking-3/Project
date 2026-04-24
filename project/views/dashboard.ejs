@@ -1,61 +1,52 @@
 <%- include('partials/header', { title: 'Dashboard' }) %>
 
 <div class="max-w-4xl mx-auto px-6 py-20">
-  <div class="mb-10">
-    <h1 class="font-serif text-5xl mb-2 italic text-white">Good day, @<%= user.username %></h1>
-    <p class="text-gray-500 font-mono text-xs uppercase tracking-widest">Your subscribed topics — showing 2 most recent messages each</p>
-  </div>
+    <div class="mb-12">
+        <h1 class="font-serif text-5xl mb-2 italic text-white">Good day, @<%= user.username %></h1>
+        <p class="text-gray-500 font-mono text-[10px] uppercase tracking-widest">Subscribed Threads / Recent Activity</p>
+    </div>
 
-  <div class="flex gap-4 mb-12">
-    <a href="/topics" class="bg-black border border-brandBorder text-white font-mono text-[10px] px-6 py-3 rounded-md uppercase tracking-widest hover:bg-brandSurface transition">
-      Browse All Topics
-    </a>
-    <a href="/topics/new" class="bg-[#E8FF4D] text-black font-mono text-[10px] px-6 py-3 rounded-md uppercase font-bold tracking-widest hover:bg-white transition shadow-[0_0_15px_rgba(232,255,77,0.3)]">
-      + Start New Topic
-    </a>
-  </div>
+    <div class="flex gap-4 mb-12">
+        <a href="/topics" class="border border-brandBorder text-white font-mono text-[10px] px-6 py-3 rounded-full uppercase hover:bg-brandSurface transition">Browse All</a>
+        <a href="/topics/new" class="bg-[#E8FF4D] text-black font-mono text-[10px] px-6 py-3 rounded-full uppercase font-bold hover:bg-white transition shadow-[0_0_15px_rgba(232,255,77,0.2)]">+ New Topic</a>
+    </div>
 
-  <div class="space-y-8">
-    <% if (topicsWithMessages && topicsWithMessages.length > 0) { %>
-      <% topicsWithMessages.forEach(item => { %>
-        <div class="bg-brandSurface border border-brandBorder p-8 rounded-2xl relative group">
-          
-          <form action="/topics/<%= item.topic._id %>/unsubscribe" method="POST" class="absolute top-8 right-8">
-            <button type="submit" class="border border-red-900/50 text-red-500 font-mono text-[8px] px-3 py-1 rounded uppercase tracking-tighter hover:bg-red-950 transition">
-              Unsubscribe
-            </button>
-          </form>
+    <div class="space-y-8">
+        <% if (topicsWithMessages && topicsWithMessages.length > 0) { %>
+            <% topicsWithMessages.forEach(item => { %>
+                <div class="bg-brandSurface border border-brandBorder p-8 rounded-3xl relative">
+                    <form action="/topics/<%= item.topic._id %>/unsubscribe" method="POST" class="absolute top-8 right-8">
+                        <button type="submit" class="text-red-500 font-mono text-[9px] uppercase border border-red-900/30 px-3 py-1 rounded hover:bg-red-950 transition">Unsubscribe</button>
+                    </form>
 
-          <h2 class="font-serif text-2xl mb-6 italic text-white"><%= item.topic.title %></h2>
+                    <h2 class="font-serif text-3xl mb-6 italic text-white"><%= item.topic.title %></h2>
 
-          <div class="space-y-4 mb-6">
-            <% if (item.messages && item.messages.length > 0) { %>
-              <% item.messages.forEach(msg => { %>
-                <div class="border-l-2 border-brandAccent/30 pl-4 py-1">
-                  <p class="text-gray-300 font-mono text-sm mb-1"><%= msg.content %></p>
-                  <div class="flex gap-3 text-[9px] font-mono uppercase text-gray-600">
-                    <span class="text-brandAccent">@<%= msg.author.username %></span>
-                    <span><%= msg.createdAt.toLocaleDateString() %></span>
-                  </div>
+                    <div class="space-y-5 mb-8">
+                        <% if (item.messages && item.messages.length > 0) { %>
+                            <% item.messages.forEach(msg => { %>
+                                <div class="border-l-2 border-[#E8FF4D]/30 pl-4">
+                                    <p class="text-gray-300 font-mono text-sm mb-1"><%= msg.content %></p>
+                                    <div class="flex gap-3 text-[9px] font-mono uppercase text-gray-600">
+                                        <span class="text-[#E8FF4D]">@<%= msg.author.username %></span>
+                                        <span><%= msg.createdAt.toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' }) %></span>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        <% } else { %>
+                            <p class="text-gray-600 font-mono text-xs italic italic">No messages recorded yet.</p>
+                        <% } %>
+                    </div>
+
+                    <a href="/topics/<%= item.topic._id %>" class="text-[#E8FF4D] font-mono text-[10px] uppercase tracking-widest underline hover:text-white transition">Enter Full Thread →</a>
                 </div>
-              <% }) %>
-            <% } else { %>
-              <p class="text-gray-600 italic font-mono text-xs">No messages yet. <a href="/topics/<%= item.topic._id %>" class="text-brandAccent underline ml-1">Be the first.</a></p>
-            <% } %>
-          </div>
-
-          <a href="/topics/<%= item.topic._id %>" class="inline-block text-brandAccent font-mono text-[10px] uppercase tracking-[0.2em] hover:text-white transition">
-            + View Full Topic
-          </a>
-        </div>
-      <% }) %>
-    <% } else { %>
-      <div class="text-center py-20 border border-dashed border-brandBorder rounded-3xl">
-        <p class="text-gray-500 font-mono text-sm mb-4">You haven't subscribed to any threads yet.</p>
-        <a href="/topics" class="text-brandAccent font-mono text-xs uppercase tracking-widest underline">Find topics to follow</a>
-      </div>
-    <% } %>
-  </div>
+            <% }) %>
+        <% } else { %>
+            <div class="border border-dashed border-brandBorder rounded-3xl p-20 text-center">
+                <p class="text-gray-600 font-mono text-sm mb-6 uppercase">No subscriptions found.</p>
+                <a href="/topics" class="bg-white text-black px-10 py-4 rounded-full font-bold uppercase text-xs">Explore Index</a>
+            </div>
+        <% } %>
+    </div>
 </div>
 
 <%- include('partials/footer') %>
