@@ -1,35 +1,27 @@
 <%- include("partials/header") %>
 
-<h1 class="text-3xl font-bold mb-6">Dashboard</h1>
+<h1 class="mb-4">Dashboard</h1>
 
-<div class="bg-white p-5 rounded-2xl shadow mb-6">
-  <form action="/topics/create" method="POST" class="flex gap-2">
-    <input name="name" placeholder="New topic"
-      class="flex-1 p-3 border rounded-lg" required>
-    <button class="bg-primary text-white px-4 rounded-lg">
-      Create
-    </button>
+<div class="card p-3 mb-4">
+  <form action="/topics/create" method="POST" class="d-flex gap-2">
+    <input class="form-control" name="name" placeholder="New topic" required>
+    <button class="btn btn-primary">Create</button>
   </form>
 </div>
 
 <% data.forEach(topic => { %>
 
-  <div class="bg-white p-5 rounded-2xl shadow mb-4">
+  <div class="card p-3 mb-3">
 
-    <h2 class="text-xl font-semibold mb-3">
-      <%= topic.topicName %>
-    </h2>
+    <h5><%= topic.topicName %></h5>
 
-    <form action="/topics/message" method="POST" class="flex gap-2 mb-3">
-      <input name="content" placeholder="Message..."
-        class="flex-1 p-2 border rounded-lg" required>
-      <button class="bg-green-600 text-white px-4 rounded-lg">
-        Post
-      </button>
+    <form action="/topics/message" method="POST" class="d-flex gap-2 mb-3">
+      <input class="form-control" name="content" placeholder="Message..." required>
+      <button class="btn btn-success">Post</button>
     </form>
 
     <% topic.messages.forEach(msg => { %>
-      <div class="bg-gray-50 p-2 rounded mb-2">
+      <div class="message-box">
         <%= msg.content %>
       </div>
     <% }) %>
