@@ -84,7 +84,7 @@ exports.postNewTopic = async (req, res) => {
     await User.findByIdAndUpdate(req.session.userId, {
       $addToSet: { subscribedTopics: topic._id }
     });
-    res.redirect('/topics');
+    res.redirect(`/topics/${topic._id}`);
   } catch (err) {
     console.error(err);
     res.render('topics/new', { error: 'Failed to create topic.' });
