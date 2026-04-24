@@ -1,15 +1,32 @@
 <%- include('../partials/header', { title: topic.title }) %>
 
 <div class="max-w-4xl mx-auto px-6 py-20">
-    <h1 class="font-serif text-5xl mb-8 italic text-brandAccent"><%= topic.title %>/</h1>
-    
-    <div class="prose prose-invert lg:prose-xl font-mono text-gray-300">
-        <p><%= topic.description %></p>
+    <div class="mb-12 border-b border-brandBorder pb-8">
+        <h1 class="font-serif text-5xl mb-4 italic text-brandAccent"><%= topic.title %>/</h1>
+        <p class="text-gray-500 font-mono text-xs uppercase tracking-widest">
+            Total Views: <%= topic.accessCount %>
+        </p>
     </div>
 
-    <div class="mt-12 pt-8 border-t border-brandBorder">
-        <a href="/stats" class="text-xs font-mono text-brandAccent hover:underline tracking-widest">
-            ← BACK TO ANALYTICS
+    <div class="space-y-6 mb-12">
+        <h2 class="font-mono text-xs text-gray-500 uppercase tracking-[0.3em] mb-4">Recent Correspondence</h2>
+        
+        <% if (topic.messages && topic.messages.length > 0) { %>
+            <% // Slice to show only the 2 most recent messages per T2.1 %>
+            <% topic.messages.slice(-2).reverse().forEach(msg => { %>
+                <div class="bg-brandSurface p-6 rounded-xl border border-brandBorder">
+                    <p class="text-gray-300 font-mono mb-2"><%= msg.content %></p>
+                    <span class="text-[10px] text-brandAccent uppercase"><%= msg.author %></span>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p class="text-gray-600 italic font-mono text-sm">No messages in this thread yet.</p>
+        <% } %>
+    </div>
+
+    <div class="pt-8 border-t border-brandBorder">
+        <a href="/topics" class="text-[10px] font-mono text-gray-500 hover:text-brandAccent transition uppercase tracking-widest">
+            ← Back to Threads
         </a>
     </div>
 </div>
