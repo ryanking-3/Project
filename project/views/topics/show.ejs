@@ -1,49 +1,27 @@
 <%- include('../partials/header', { title: topic.title }) %>
-
 <main class="max-w-4xl mx-auto px-6 py-12">
-  <header class="mb-12">
-    <div class="flex items-center gap-4 mb-4">
-      <h1 class="font-serif text-5xl italic"><%= topic.title %></h1>
-      <% if (isSubscribed) { %>
-        <span class="bg-brandAccent/10 text-brandAccent border border-brandAccent/30 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">Subscribed</span>
-      <% } %>
-    </div>
-    
-    <div class="flex items-center justify-between border-y border-brandBorder py-4 font-mono text-[11px] text-gray-500 uppercase tracking-widest">
-      <div class="flex gap-6">
-        <span>By @<%= topic.createdBy.username %></span>
-        <span><%= topic.accessCount %> Total Views</span>
-      </div>
-      <% if (!isSubscribed) { %>
-        <form action="/topics/<%= topic._id %>/subscribe" method="POST">
-          <button class="text-brandAccent hover:underline">Join Conversation</button>
-        </form>
-      <% } %>
+  <header class="mb-12 border-b border-brandBorder pb-8">
+    <h1 class="font-serif text-5xl italic mb-4"><%= topic.title %></h1>
+    <p class="text-gray-400 mb-6"><%= topic.description %></p>
+    <div class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">
+      Views: <%= topic.accessCount %> | Author: @<%= topic.createdBy.username %>
     </div>
   </header>
 
-  <div class="space-y-8 mb-16">
+  <div class="space-y-6 mb-12">
     <% topic.messages.forEach(msg => { %>
-      <div class="group">
-        <div class="flex justify-between items-center mb-2">
-          <span class="text-xs font-mono text-brandAccent uppercase">@<%= msg.author.username %></span>
-          <span class="text-[10px] text-gray-600 font-mono"><%= new Date(msg.createdAt).toLocaleString() %></span>
-        </div>
-        <div class="bg-brandSurface border border-brandBorder p-5 rounded-2xl rounded-tl-none">
-          <p class="text-gray-200 text-sm"><%= msg.content %></p>
-        </div>
+      <div class="bg-brandSurface border border-brandBorder p-5 rounded-2xl">
+        <div class="text-xs font-mono text-brandAccent mb-2">@<%= msg.author.username %></div>
+        <p class="text-gray-300"><%= msg.content %></p>
       </div>
     <% }) %>
   </div>
 
   <% if (isSubscribed) { %>
-    <div class="bg-brandSurface border border-brandBorder p-8 rounded-2xl">
-      <h3 class="font-serif text-2xl mb-6 italic">Post a Message</h3>
-      <form action="/topics/<%= topic._id %>/messages" method="POST" class="space-y-4">
-        <textarea name="content" required rows="4" placeholder="Type your reply..." 
-                  class="w-full bg-brandBg border border-brandBorder rounded-xl px-4 py-3 focus:outline-none focus:border-brandAccent transition text-sm"></textarea>
-        <button type="submit" class="bg-brandAccent text-black font-bold px-8 py-3 rounded-full hover:opacity-90 transition shadow-lg">Post</button>
-      </form>
-    </div>
+    <form action="/topics/<%= topic._id %>/messages" method="POST" class="bg-brandSurface p-6 rounded-2xl border border-brandAccent/20">
+      <textarea name="content" required placeholder="Write a message..." class="w-full bg-brandBg border border-brandBorder rounded-xl p-4 focus:outline-none focus:border-brandAccent transition mb-4"></textarea>
+      <button class="bg-brandAccent text-black font-bold px-8 py-2 rounded-full">Post Message</button>
+    </form>
   <% } %>
 </main>
+<%- include('../partials/footer') %>

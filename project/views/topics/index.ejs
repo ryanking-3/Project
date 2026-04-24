@@ -1,56 +1,30 @@
 <%- include('../partials/header', { title: 'Topics' }) %>
-
 <div class="max-w-5xl mx-auto px-6 py-12">
-  <div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
-    <div>
-      <h1 class="font-serif text-5xl mb-2 italic">All Threads</h1>
-      <p class="text-gray-500 font-mono text-xs uppercase tracking-widest">Browse and join the conversation</p>
-    </div>
-    <div class="flex gap-4">
-      <a href="/dashboard" class="border border-brandBorder px-6 py-2 rounded-full text-sm font-bold hover:bg-white hover:text-black transition">← Dashboard</a>
-      <a href="/topics/new" class="bg-brandAccent text-black px-6 py-2 rounded-full font-bold hover:scale-105 transition shadow-[0_0_15px_rgba(232,255,77,0.3)]">+ Start New Topic</a>
-    </div>
+  <div class="flex justify-between items-end mb-12">
+    <h1 class="font-serif text-5xl italic">All Threads</h1>
+    <a href="/topics/new" class="bg-brandAccent text-black px-6 py-2 rounded-full font-bold hover:scale-105 transition">+ New Topic</a>
   </div>
-
-  <% if (topics.length === 0) { %>
-    <div class="text-center py-20 border border-dashed border-brandBorder rounded-3xl">
-      <div class="text-4xl mb-4">🌱</div>
-      <p class="text-gray-500 italic">No topics have been created yet.</p>
-    </div>
-  <% } else { %>
-    <div class="divide-y divide-brandBorder">
-      <% topics.forEach(topic => { %>
-        <% const isSubscribed = subscribedIds.includes(topic._id.toString()); %>
-        <div class="py-8 flex flex-col md:flex-row justify-between items-start md:items-center group gap-6">
-          <div class="flex-1">
-            <a href="/topics/<%= topic._id %>" class="font-serif text-2xl group-hover:text-brandAccent transition block mb-2">
-              <%= topic.title %>
-            </a>
-            <div class="flex flex-wrap gap-x-6 gap-y-2 text-[11px] font-mono uppercase tracking-wider text-gray-500">
-              <span>Started by <span class="text-gray-300">@<%= topic.createdBy.username %></span></span>
-              <span><%= topic.subscribers.length %> Subscriber<%= topic.subscribers.length !== 1 ? 's' : '' %></span>
-              <% if (topic.description) { %>
-                <span class="text-gray-600 normal-case font-sans italic"><%= topic.description %></span>
-              <% } %>
-            </div>
-          </div>
-          
-          <div class="flex items-center gap-4 shrink-0">
-            <% if (isSubscribed) { %>
-              <span class="text-[10px] font-bold text-brandAccent border border-brandAccent/30 px-3 py-1 rounded-full bg-brandAccent/5 tracking-tighter">ACTIVE</span>
-              <form action="/topics/<%= topic._id %>/unsubscribe" method="POST">
-                <button class="text-xs text-gray-500 hover:text-red-400 font-bold underline underline-offset-4 transition">Unsubscribe</button>
-              </form>
-            <% } else { %>
-              <form action="/topics/<%= topic._id %>/subscribe" method="POST">
-                <button class="bg-white/5 border border-white/10 px-6 py-2 rounded-full text-sm font-bold hover:bg-brandAccent hover:text-black transition">Subscribe</button>
-              </form>
-            <% } %>
-          </div>
+  <div class="divide-y divide-brandBorder">
+    <% topics.forEach(topic => { %>
+      <% const isSubscribed = subscribedIds.includes(topic._id.toString()); %>
+      <div class="py-8 flex justify-between items-center group">
+        <div>
+          <a href="/topics/<%= topic._id %>" class="font-serif text-2xl group-hover:text-brandAccent transition"><%= topic.title %></a>
+          <div class="text-[11px] font-mono uppercase text-gray-500 mt-1">@<%= topic.createdBy.username %> · <%= topic.subscribers.length %> subs</div>
         </div>
-      <% }) %>
-    </div>
-  <% } %>
+        <div class="flex items-center gap-4">
+          <% if (isSubscribed) { %>
+            <form action="/topics/<%= topic._id %>/unsubscribe" method="POST">
+              <button class="text-xs text-gray-500 hover:text-red-400 font-bold underline transition">Leave</button>
+            </form>
+          <% } else { %>
+            <form action="/topics/<%= topic._id %>/subscribe" method="POST">
+              <button class="bg-white/5 border border-white/10 px-6 py-2 rounded-full text-sm font-bold hover:bg-brandAccent hover:text-black transition">Subscribe</button>
+            </form>
+          <% } %>
+        </div>
+      </div>
+    <% }) %>
+  </div>
 </div>
-
 <%- include('../partials/footer') %>

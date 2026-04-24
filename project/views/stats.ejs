@@ -1,26 +1,18 @@
-<%- include('partials/header', { title: 'Statistics' }) %>
-
-<%- include('partials/header', { title: 'Statistics' }) %>
-
-<div class="max-w-3xl mx-auto px-6 py-20 text-center">
-  <h1 class="font-serif text-5xl mb-4 italic text-brandAccent">Metrics</h1>
-  <p class="text-gray-500 font-mono text-xs tracking-[0.3em] uppercase mb-16 underline underline-offset-8">Access Frequency per Topic</p>
-
-  <div class="space-y-4 text-left">
-    <% topics.forEach((topic, i) => { %>
-      <div class="bg-brandSurface p-6 rounded-xl border border-brandBorder flex items-center gap-8 group">
-        <span class="font-mono text-gray-700 text-xl group-hover:text-brandAccent transition">0<%= i+1 %></span>
-        <div class="flex-1">
-          <div class="flex justify-between items-end mb-3">
-            <span class="font-bold text-lg"><%= topic.title %></span>
-            <span class="text-xs font-mono text-brandAccent"><%= topic.accessCount %> HITS</span>
-          </div>
-          <div class="h-1 bg-white/5 w-full rounded-full overflow-hidden">
-            <div class="h-full bg-brandAccent shadow-[0_0_8px_#e8ff4d] transition-all duration-1000" 
-                 style="width: <%= (topic.accessCount / maxAccess * 100) %>%"></div>
-          </div>
+<%- include('partials/header', { title: 'Stats' }) %>
+<div class="max-w-3xl mx-auto px-6 py-20">
+  <h1 class="font-serif text-5xl mb-12 italic text-center text-brandAccent">Topic Hits</h1>
+  <div class="space-y-6">
+    <% topics.forEach((topic) => { %>
+      <div class="bg-brandSurface p-6 rounded-xl border border-brandBorder">
+        <div class="flex justify-between items-end mb-2">
+          <span class="font-bold"><%= topic.title %></span>
+          <span class="text-xs font-mono text-brandAccent"><%= topic.accessCount %> ACCESSES</span>
+        </div>
+        <div class="h-1 bg-white/5 w-full rounded-full overflow-hidden">
+          <div class="h-full bg-brandAccent" style="width: <%= (topic.accessCount / maxAccess * 100) %>%"></div>
         </div>
       </div>
     <% }) %>
   </div>
 </div>
+<%- include('partials/footer') %>
