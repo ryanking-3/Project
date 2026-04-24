@@ -1,6 +1,3 @@
-// config/database.js
-// Singleton pattern for database access
-
 const mongoose = require('mongoose');
 
 class Database {

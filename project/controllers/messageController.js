@@ -1,4 +1,4 @@
-// controllers/messageController.js
+
 const Message = require('../models/Message');
 const Topic   = require('../models/Topic');
 const User    = require('../models/User');
@@ -10,7 +10,6 @@ exports.postMessage = async (req, res) => {
     const { content } = req.body;
     const topicId = req.params.topicId;
 
-    // Only subscribed users can post
     const user = await User.findById(req.session.userId);
     if (!user.subscribedTopics.includes(topicId)) {
       return res.redirect(`/topics/${topicId}`);
@@ -33,7 +32,6 @@ exports.postMessage = async (req, res) => {
   }
 };
 
-// Delete a message (author only)
 exports.deleteMessage = async (req, res) => {
   try {
     const message = await Message.findById(req.params.id);

@@ -23,8 +23,6 @@ class EventSystem {
     this.listeners[event].forEach(listener => listener(data));
   }
 }
-
-// Singleton event system
 const eventSystem = new EventSystem();
 
 module.exports = eventSystem;

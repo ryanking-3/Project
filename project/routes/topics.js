@@ -12,7 +12,6 @@ router.get('/:id',        requireAuth, topicController.getTopic);
 router.post('/:id/subscribe',   requireAuth, topicController.subscribe);
 router.post('/:id/unsubscribe', requireAuth, topicController.unsubscribe);
 
-// Messages within a topic
 router.post('/:topicId/messages',        requireAuth, messageController.postMessage);
 router.post('/messages/:id/delete',      requireAuth, messageController.deleteMessage);
 

@@ -1,12 +1,8 @@
-// observers/TopicObserver.js
-// Observer that tracks topic access stats
-
 const eventSystem = require('./EventSystem');
 const Topic = require('../models/Topic');
 
 class TopicObserver {
   constructor() {
-    // Subscribe to topic access events
     eventSystem.subscribe('topic:accessed', this.onTopicAccessed.bind(this));
     eventSystem.subscribe('message:posted', this.onMessagePosted.bind(this));
     console.log('TopicObserver initialized and listening');

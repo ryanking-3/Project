@@ -1,10 +1,10 @@
-// controllers/topicController.js
+
 const Topic   = require('../models/Topic');
 const Message = require('../models/Message');
 const User    = require('../models/User');
 const eventSystem = require('../observers/EventSystem');
 
-// Dashboard — show 2 most recent messages per subscribed topic
+
 exports.getDashboard = async (req, res) => {
   try {
     const user = await User.findById(req.session.userId).populate('subscribedTopics');
@@ -24,7 +24,6 @@ exports.getDashboard = async (req, res) => {
   }
 };
 
-// Show all topics available for subscription
 exports.getAllTopics = async (req, res) => {
   try {
     const user = await User.findById(req.session.userId);
@@ -36,8 +35,6 @@ exports.getAllTopics = async (req, res) => {
     res.redirect('/dashboard');
   }
 };
-
-// Show single topic + all its messages
 exports.getTopic = async (req, res) => {
   try {
     const topic = await Topic.findById(req.params.id).populate('createdBy', 'username');
@@ -60,12 +57,10 @@ exports.getTopic = async (req, res) => {
   }
 };
 
-// Show new topic form
 exports.getNewTopic = (req, res) => {
   res.render('topics/new', { error: null });
 };
 
-// Create new topic — auto-subscribe creator
 exports.postNewTopic = async (req, res) => {
   try {
     const { title, description } = req.body;
@@ -91,7 +86,6 @@ exports.postNewTopic = async (req, res) => {
   }
 };
 
-// Subscribe to a topic
 exports.subscribe = async (req, res) => {
   try {
     const topicId = req.params.id;
@@ -108,7 +102,6 @@ exports.subscribe = async (req, res) => {
   }
 };
 
-// Unsubscribe from a topic
 exports.unsubscribe = async (req, res) => {
   try {
     const topicId = req.params.id;
@@ -125,7 +118,6 @@ exports.unsubscribe = async (req, res) => {
   }
 };
 
-// Statistics route — access count per topic
 exports.getStats = async (req, res) => {
   try {
     const topics = await Topic.find()

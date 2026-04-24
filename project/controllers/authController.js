@@ -1,13 +1,11 @@
-// controllers/authController.js
+
 const User = require('../models/User');
 
-// Show register page
 exports.getRegister = (req, res) => {
   if (req.session.userId) return res.redirect('/dashboard');
   res.render('auth/register', { error: null });
 };
 
-// Handle register
 exports.postRegister = async (req, res) => {
   try {
     const { username, email, password, confirmPassword } = req.body;
@@ -29,13 +27,11 @@ exports.postRegister = async (req, res) => {
   }
 };
 
-// Show login page
 exports.getLogin = (req, res) => {
   if (req.session.userId) return res.redirect('/dashboard');
   res.render('auth/login', { error: null });
 };
 
-// Handle login
 exports.postLogin = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -52,7 +48,6 @@ exports.postLogin = async (req, res) => {
   }
 };
 
-// Logout
 exports.logout = (req, res) => {
   req.session.destroy();
   res.redirect('/login');
