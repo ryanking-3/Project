@@ -1,25 +1,25 @@
 <%- include("../partials/header") %>
 
-<div class="flex justify-center mt-16">
-  <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
+<div class="flex justify-center mt-20">
+  <div class="bg-white p-8 rounded-2xl shadow w-full max-w-md">
 
-    <h2 class="text-2xl font-bold text-center mb-6">Login</h2>
+    <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
 
     <form action="/login" method="POST" class="space-y-4">
       <input type="email" name="email" placeholder="Email"
-        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-400" required>
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary" required>
 
       <input type="password" name="password" placeholder="Password"
-        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-400" required>
+        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-primary" required>
 
-      <button class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700">
+      <button class="w-full bg-primary text-white py-3 rounded-lg hover:bg-indigo-700">
         Login
       </button>
     </form>
 
     <p class="text-center mt-4 text-sm">
-      Don’t have an account?
-      <a href="/register" class="text-indigo-600">Register</a>
+      No account?
+      <a href="/register" class="text-primary">Register</a>
     </p>
 
   </div>

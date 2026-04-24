@@ -2,31 +2,34 @@
 
 <h1 class="text-3xl font-bold mb-6">Dashboard</h1>
 
-<div class="bg-white p-5 rounded-xl shadow mb-6">
+<div class="bg-white p-5 rounded-2xl shadow mb-6">
   <form action="/topics/create" method="POST" class="flex gap-2">
     <input name="name" placeholder="New topic"
       class="flex-1 p-3 border rounded-lg" required>
-    <input type="hidden" name="userId" value="<%= userId %>">
-    <button class="bg-indigo-600 text-white px-4 rounded-lg">Create</button>
+    <button class="bg-primary text-white px-4 rounded-lg">
+      Create
+    </button>
   </form>
 </div>
 
 <% data.forEach(topic => { %>
 
-  <div class="bg-white p-5 rounded-xl shadow mb-4">
+  <div class="bg-white p-5 rounded-2xl shadow mb-4">
 
-    <h2 class="text-xl font-semibold mb-2"><%= topic.topicName %></h2>
+    <h2 class="text-xl font-semibold mb-3">
+      <%= topic.topicName %>
+    </h2>
 
     <form action="/topics/message" method="POST" class="flex gap-2 mb-3">
-      <input name="content" placeholder="Write message..."
+      <input name="content" placeholder="Message..."
         class="flex-1 p-2 border rounded-lg" required>
-      <input type="hidden" name="topicId" value="<%= topic.topicId %>">
-      <input type="hidden" name="userId" value="<%= userId %>">
-      <button class="bg-green-600 text-white px-4 rounded-lg">Post</button>
+      <button class="bg-green-600 text-white px-4 rounded-lg">
+        Post
+      </button>
     </form>
 
     <% topic.messages.forEach(msg => { %>
-      <div class="border p-2 mb-2 rounded bg-gray-50">
+      <div class="bg-gray-50 p-2 rounded mb-2">
         <%= msg.content %>
       </div>
     <% }) %>
