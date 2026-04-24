@@ -137,3 +137,25 @@ exports.getStats = async (req, res) => {
     res.redirect('/dashboard');
   }
 };
+
+exports.postMessage = async (req, res) => {
+  try {
+    const { content } = req.body;
+    const topicId = req.params.id;
+
+    // Create the message and link it to the topic and user
+    const message = new Message({
+      content,
+      topic: topicId,
+      author: req.session.userId
+    });
+
+    await message.save();
+
+    // Redirect back to the topic page to see the new message
+    res.redirect(`/topics/${topicId}`);
+  } catch (err) {
+    console.error(err);
+    res.redirect(`/topics/${req.params.id}`);
+  }
+};
