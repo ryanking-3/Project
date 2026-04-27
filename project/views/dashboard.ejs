@@ -3,7 +3,7 @@
 <div class="max-w-4xl mx-auto px-6 py-20">
     <div class="mb-12">
         <h1 class="font-serif text-5xl mb-2 italic text-white">Good day, @<%= user.username %></h1>
-        <p class="text-gray-500 font-mono text-[10px] uppercase tracking-widest">Subscribed Threads / Recent Activity</p>
+        <p class="text-gray-500 font-mono text-[10px] uppercase tracking-widest">Subscribed Posts / Recent Activity</p>
     </div>
 
     <div class="flex gap-4 mb-12">
@@ -37,7 +37,7 @@
                         <% } %>
                     </div>
 
-                    <a href="/topics/<%= item.topic._id %>" class="text-[#E8FF4D] font-mono text-[10px] uppercase tracking-widest underline hover:text-white transition">View Full Thread →</a>
+                    <a href="/topics/<%= item.topic._id %>" class="text-[#E8FF4D] font-mono text-[10px] uppercase tracking-widest underline hover:text-white transition">View Full Post →</a>
                 </div>
             <% }) %>
         <% } %>
