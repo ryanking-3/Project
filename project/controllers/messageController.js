@@ -1,16 +1,11 @@
-// controllers/messageController.js
 const Message = require('../models/Message');
 const Topic   = require('../models/Topic');
 const User    = require('../models/User');
 const eventSystem = require('../observers/EventSystem');
-
-// Post a message in a topic
 exports.postMessage = async (req, res) => {
   try {
     const { content } = req.body;
     const topicId = req.params.topicId;
-
-    // Only subscribed users can post
     const user = await User.findById(req.session.userId);
     if (!user.subscribedTopics.includes(topicId)) {
       return res.redirect(`/topics/${topicId}`);
@@ -22,8 +17,6 @@ exports.postMessage = async (req, res) => {
       topic:  topicId
     });
     await message.save();
-
-    // Notify observers
     eventSystem.notify('message:posted', { topicId, userId: req.session.userId });
 
     res.redirect(`/topics/${topicId}`);
@@ -32,8 +25,6 @@ exports.postMessage = async (req, res) => {
     res.redirect(`/topics/${req.params.topicId}`);
   }
 };
-
-// Delete a message (author only)
 exports.deleteMessage = async (req, res) => {
   try {
     const message = await Message.findById(req.params.id);
