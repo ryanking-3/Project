@@ -27,6 +27,18 @@ exports.getLogin = (req, res) => {
   if (req.session.userId) return res.redirect('/dashboard');
   res.render('auth/login', { error: null });
 };
+exports.login = async (req, res) => {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+
+    if (user && await user.comparePassword(password)) {
+        // This line creates the cookie and saves it to the browser
+        req.session.userId = user._id; 
+        res.redirect('/dashboard');
+    } else {
+        res.redirect('/login');
+    }
+};
 exports.postLogin = async (req, res) => {
   try {
     const { username, password } = req.body;
