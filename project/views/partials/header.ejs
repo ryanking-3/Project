@@ -6,30 +6,24 @@
     <title><%= title %> | Posts</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;700&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;700&display=swap');        
         :root {
             --brand-bg: #0a0a0a;
             --brand-surface: #141414;
             --brand-border: #262626;
             --brand-accent: #e8ff4d;
         }
-
         body { 
             background-color: var(--brand-bg); 
             color: white;
             font-family: 'JetBrains Mono', monospace;
         }
-
         .font-serif { font-family: 'DM Serif Display', serif; }
-
-        /* WORKAROUND CSS */
         .progress-fill {
             height: 100%;
             background-color: var(--brand-accent);
             box-shadow: 0 0 15px rgba(232, 255, 77, 0.5);
             transition: width 1s ease-out;
-            /* This tells the bar to look for a custom variable named --pg-width */
             width: var(--pg-width, 0%); 
         }
     </style>

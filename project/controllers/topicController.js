@@ -35,14 +35,10 @@ exports.getTopic = async (req, res) => {
   try {
     const topic = await Topic.findById(req.params.id).populate('createdBy', 'username');
     if (!topic) return res.redirect('/topics');
-
-    // Notify observer — topic was accessed
     eventSystem.notify('topic:accessed', { topicId: topic._id });
-
     const messages = await Message.find({ topic: topic._id })
       .sort({ createdAt: -1 })
       .populate('author', 'username');
-
     const user = await User.findById(req.session.userId);
     const isSubscribed = user.subscribedTopics.includes(topic._id);
 
@@ -69,7 +65,6 @@ exports.postNewTopic = async (req, res) => {
       subscribers: [req.session.userId]
     });
     await topic.save();
-    // Auto-subscribe creator
     await User.findByIdAndUpdate(req.session.userId, {
       $addToSet: { subscribedTopics: topic._id }
     });
@@ -109,8 +104,6 @@ exports.unsubscribe = async (req, res) => {
     res.redirect('/dashboard');
   }
 };
-
-// Statistics route — access count per topic
 exports.getStats = async (req, res) => {
   try {
     const topics = await Topic.find()
@@ -122,22 +115,16 @@ exports.getStats = async (req, res) => {
     res.redirect('/dashboard');
   }
 };
-
 exports.postMessage = async (req, res) => {
   try {
     const { content } = req.body;
     const topicId = req.params.id;
-
-    // Create the message and link it to the topic and user
     const message = new Message({
       content,
       topic: topicId,
       author: req.session.userId
     });
-
     await message.save();
-
-    // Redirect back to the topic page to see the new message
     res.redirect(`/topics/${topicId}`);
   } catch (err) {
     console.error(err);

@@ -1,11 +1,9 @@
 <%- include('../partials/header', { title: topic.title }) %>
-
 <div class="max-w-4xl mx-auto px-6 py-20">
     <div class="mb-12 border-b border-brandBorder pb-8">
         <h1 class="font-serif text-5xl mb-4 italic text-[#E8FF4D]"><%= topic.title %>/</h1>
         <p class="text-gray-500 font-mono text-[10px] uppercase tracking-widest">Analytics: <%= topic.accessCount %> Accesses</p>
     </div>
-
     <div class="space-y-6 mb-16">
         <% messages.forEach(msg => { %>
             <div class="bg-brandSurface p-6 rounded-xl border border-brandBorder">
@@ -17,7 +15,6 @@
             </div>
         <% }) %>
     </div>
-
     <% if (isSubscribed) { %>
         <div class="bg-[#111111] p-8 rounded-3xl border border-[#E8FF4D]/20">
             <h3 class="font-serif text-2xl mb-6 italic text-white">Broadcast/</h3>
@@ -29,5 +26,4 @@
         </div>
     <% } %>
 </div>
-
 <%- include('../partials/footer') %>
